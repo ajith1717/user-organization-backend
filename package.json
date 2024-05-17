@@ -1,0 +1,37 @@
+{
+  "name": "sample2",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "server": "LOG_LEVEL=debug nodemon start.js",
+    "start": "node start.js",
+    "local": "node start.js",
+    "debug": "nodemon --ignore ./logs/custom/ --inspect start.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "axios": "^1.6.8",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.0.1",
+    "gaxios": "^6.5.0",
+    "google-auth-library": "^9.9.0",
+    "googleapis": "^137.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "Faker": "^0.7.2"
+  }
+}

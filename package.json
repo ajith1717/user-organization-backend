@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "server": "LOG_LEVEL=debug nodemon start.js",
-    "start": "node start.js",
+    "start": "node server.js",
     "local": "node start.js",
     "debug": "nodemon --ignore ./logs/custom/ --inspect start.js"
   },

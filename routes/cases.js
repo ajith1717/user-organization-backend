@@ -12,6 +12,8 @@ router.put("/v1", caseController.updateBasicCaseForm);
 
 // API for get case form
 router.get("/v1", caseController.getBasicCaseForm);
-
+router.get("/", (req, res) => {
+    res.send("Cases route");
+});
 
 module.exports = router;

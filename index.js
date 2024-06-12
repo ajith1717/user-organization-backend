@@ -1,8 +1,15 @@
-const express = require("express");
-const app = express();
+
+const app = require("./server")
+const port = 5001;
+const dotenv = require('dotenv');
+dotenv.config();
+
 app.get("/", (req, res) => { res.send("Express on Vercel"); });
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => { console.log(`Server is running on port ${PORT}`); });
+app.listen(port, async () => {
+    console.log(`Server is running on Port ${port}`,)
+});
+
+
 
 
 module.exports = app;

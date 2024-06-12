@@ -13,6 +13,7 @@ app.use(bodyParser.json({ limit: "20MB" }));
 
 // 👇️ Configure CORS
 app.use(cors());
+app.get("/", (req, res) => { res.send("Express on Vercel"); });
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/api/user", patientRoute);

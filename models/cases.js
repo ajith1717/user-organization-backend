@@ -6,8 +6,11 @@ const caseSchema = new mongoose.Schema({
     // random 6 digit alpha number
     caseId: { type: String, required: true, unique: true },
     patientId: { type: String, default: "", required: true },
+    primaryDoctorName: { type: String, default: "", required: true },
+    primaryDoctorCode: { type: String, default: "", required: true },
+    bedNumber: { type: String, default: "", required: true },
 
-    date: { type: Date, default: new Date() },
+    arrivalDate: { type: Date, default: new Date(), required: true },
     preHospitalAssessment: { type: String, default: "" },// alert / verbal / painful / unconscious
     condition: { type: String, default: "" }, // alert / verbal / painful / unconscious
     mode: {

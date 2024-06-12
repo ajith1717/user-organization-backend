@@ -1,10 +1,13 @@
 const { createBasicCaseFormDAO } = require("../dataAccess/casesDAO");
+const { createOrUpdatePatientDetails } = require("./patientServices");
 
 
 
 // function used to create basic case details 
 exports.createBasicCaseForm = async (caseDetails) => {
     try {
+        // create or update the patient details 
+        await createOrUpdatePatientDetails(caseDetails.patientDetails)
         caseDetails.caseId = Math.random().toString(36).substring(2, 8).toUpperCase()
         let caseDetailsData = await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
         return caseDetailsData

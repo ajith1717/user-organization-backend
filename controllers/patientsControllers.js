@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 const { HTTP_STATUS_CODE } = require("../constant/general");
-const { userSignup, userLogin, fetchUserDetails, updateUserDetails, fetchAllUserDetails, updateUserImage, deleteUserDetails, fetchAllOrganizationsDetails } = require("../services/userServices");
+const { userSignup, userLogin, fetchUserDetails, updateUserDetails, fetchAllUserDetails, updateUserImage, deleteUserDetails, fetchAllOrganizationsDetails } = require("../services/patientServices");
 
 
 // API for user signup

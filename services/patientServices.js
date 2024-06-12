@@ -1,5 +1,5 @@
 const { HTTP_STATUS_CODE } = require("../constant/general");
-const { fetchUserDetailsByPayload, createOrUpdateUserDetailsByPayload, fetchAllUserDetailsByPayload, deleteUserDetailsByPayload, fetchAllOrganizationsDetails } = require("../dataAccess/userDAO");
+const { fetchUserDetailsByPayload, createOrUpdateUserDetailsByPayload, fetchAllUserDetailsByPayload, deleteUserDetailsByPayload, fetchAllOrganizationsDetails } = require("../dataAccess/patientsDAO");
 const { generateBcryptPassword, bcryptPasswordMatch } = require("../encryption");
 const { signJWTToken } = require("../utils");
 

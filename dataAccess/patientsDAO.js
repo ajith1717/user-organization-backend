@@ -1,6 +1,5 @@
 
-const Users = require("../models/user")
-const Organization = require("../models/organization")
+const Users = require("../models/patients")
 
 
 

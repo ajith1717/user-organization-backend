@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 const { faker } = require('@faker-js/faker');
-const User = require('./models/user');
-const Organization = require('./models/organization');
-const { generateBcryptPassword } = require('./encryption');
+const Cases = require('./models/cases');
 
-const MONGODB_URI = 'mongodb+srv://subramaniamdev01:qwerty1234@cluster.fzqbthd.mongodb.net/?retryWrites=true&w=majority';
+const MONGODB_URI = 'mongodb+srv://adkerapp:QwirvxiJnqcwDoSy@adker-app.38kfu6y.mongodb.net/?retryWrites=true&w=majority';
 
 // Connect to MongoDB
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -12,25 +10,21 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
     .catch(err => console.error('MongoDB connection error:', err));
 
 const clearCollections = async () => {
-    await User.deleteMany({});
+    await Cases.deleteMany({});
     await Organization.deleteMany({});
 };
 
-const createUsers = async () => {
-    const users = [];
-    const roles = ['user', 'admin'];
+const createCases = async () => {
+    const Case = [];
 
     for (let i = 0; i < 10; i++) {
-        const user = new User({
-            name: faker.name.fullName(),
-            email: faker.internet.email(),
-            role: roles[Math.floor(Math.random() * roles.length)],
-            password: await generateBcryptPassword("adcb1234")  //'adcb1234'
+        const casess = new Cases({
+            parentId: Math.random().toString(36).substring(2, 8).toUpperCase(),
         });
-        users.push(user.save());
+        Case.push(casess.save());
     }
 
-    return Promise.all(users);
+    return Promise.all(Case);
 };
 
 const createOrganisations = async (userIds) => {
@@ -49,11 +43,11 @@ const createOrganisations = async (userIds) => {
 
 const seedDatabase = async () => {
     try {
-        await clearCollections();
-        const users = await createUsers();
-        console.log(users, "users")
-        const userIds = users.map(user => user._id);
-        await createOrganisations(userIds);
+        await createCases();
+        // const users = await createUsers();
+        // console.log(users, "users")
+        // const userIds = users.map(user => user._id);
+        // await createOrganisations(userIds);
         console.log('Database seeded successfully');
     } catch (error) {
         console.error('Error seeding database:', error);
@@ -62,4 +56,4 @@ const seedDatabase = async () => {
     }
 };
 
-// seedDatabase();
+seedDatabase();

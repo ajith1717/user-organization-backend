@@ -23,13 +23,15 @@
     "gaxios": "^6.5.0",
     "google-auth-library": "^9.9.0",
     "googleapis": "^137.1.0",
+    "index.js": "^0.0.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.0",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "touch": "^3.1.1"
   },
   "devDependencies": {
     "Faker": "^0.7.2"

@@ -7,20 +7,17 @@ const path = require("path");
 
 const cors = require('cors');
 //  use route 
-const userRoute = require("./routes/users")
-const authRoutes = require("./routes/authRoutes")
-const organizationRoutes = require("./routes/organization")
+const patientRoute = require("./routes/patients")
+const casesRoute = require("./routes/cases")
 app.use(bodyParser.json({ limit: "20MB" }));
 
 // 👇️ Configure CORS
 app.use(cors());
-
+app.get("/", (req, res) => { res.send("Express on Vercel"); });
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', authRoutes);
-app.use('/api/organization', organizationRoutes);
-
-app.use("/api/user", userRoute);
+app.use("/api/user", patientRoute);
+app.use("/api/case", casesRoute);
 
 
 

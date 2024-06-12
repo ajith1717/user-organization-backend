@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/userControllers");
+const patientController = require("../controllers/patientsControllers");
 const { authenticateAPI } = require("../passport");
 
 const fs = require('fs');
@@ -26,31 +26,31 @@ const imageStorage = multer.diskStorage({
 const imageUpload = multer({ storage: imageStorage })
 
 // API for sign up
-router.post("/v1/user", validateGuardianSignup, userController.userSignup);
+router.post("/v1/user", validateGuardianSignup, patientController.userSignup);
 
 
 // API for login 
-router.post("/v1/login", validateEmailLogin, userController.userLogin)
+router.post("/v1/login", validateEmailLogin, patientController.userLogin)
 
 // API for fetch user details 
-router.get("/v1/user", [authenticateAPI], userController.fetchUserDetails)
+router.get("/v1/user", [authenticateAPI], patientController.fetchUserDetails)
 
 // API for update user details 
-router.put("/v1/user", [authenticateAPI], userController.updateUserDetails)
+router.put("/v1/user", [authenticateAPI], patientController.updateUserDetails)
 
 
 // // API for upload image 
-// router.patch("/v1/image", imageUpload.any(), [authenticateAPI], userController.updateUserImage)
+// router.patch("/v1/image", imageUpload.any(), [authenticateAPI], patientController.updateUserImage)
 
 
 // API for fetch all user details 
-router.get("/v1/users", [authenticateAPI], userController.fetchAllUserDetails)
+router.get("/v1/users", [authenticateAPI], patientController.fetchAllUserDetails)
 
 
 // API for fetch all organizations details 
-router.get("/v1/organizations", [authenticateAPI], userController.fetchAllOrganizationsDetails)
+router.get("/v1/organizations", [authenticateAPI], patientController.fetchAllOrganizationsDetails)
 // API for sign out user 
 
-router.delete("/v1/user", [authenticateAPI], userController.deleteUserDetails)
+router.delete("/v1/user", [authenticateAPI], patientController.deleteUserDetails)
 
 module.exports = router;

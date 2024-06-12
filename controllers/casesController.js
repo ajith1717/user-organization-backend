@@ -38,3 +38,25 @@ exports.updateBasicCaseForm = async (req, res) => {
         res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during updating basic case form ", errors: err }))
     }
 }
+
+// function used to update basic case form
+exports.getBasicCaseForm = async (req, res) => {
+    try {
+        // let result = await updateBasicCaseForm(req.body);
+        let result = {
+            success: true,
+            msg: "fetched successfully"
+        }
+        if (result.success) {
+            res.status(HTTP_STATUS_CODE.OK).json(result)
+        } else {
+            res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(result);
+            return;
+        }
+    } catch (err) {
+        console.log('err', err)
+        res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during updating basic case form ", errors: err }))
+    }
+}
+
+

@@ -1,4 +1,4 @@
-const { createBasicCaseFormDAO } = require("../dataAccess/casesDAO");
+const { createBasicCaseFormDAO, createCardiaCaseFormDAO } = require("../dataAccess/casesDAO");
 const { createOrUpdatePatientDetails } = require("./patientServices");
 
 
@@ -22,6 +22,30 @@ exports.createBasicCaseForm = async (caseDetails) => {
 exports.updateBasicCaseForm = async (caseDetails) => {
     try {
         let caseDetailsData = await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+        return caseDetailsData
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+
+// function used to create cardiac case form
+exports.createCardiacCaseForm = async (caseDetails) => {
+    try {
+        let caseDetailsData = await createCardiaCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+        return caseDetailsData
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+
+// function used to update Cardiac case details
+exports.updateCardiacCaseForm = async (caseDetails) => {
+    try {
+        let caseDetailsData = await createCardiaCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
         return caseDetailsData
     } catch (error) {
         console.log(error)

@@ -16,7 +16,16 @@ router.get("/", (req, res) => {
     res.send("Cases route");
 });
 
-// API for create cardiac case form
+// API for create or update cardiac case form
 router.post("/v1/cardiac", caseController.createCardiacCaseForm);
+
+// API for create or update neonatal case form
+router.post("/v1/neonatal", caseController.createNeonatalCaseForm);
+
+// API for create or update obstetric case form
+router.post("/v1/obstetric", caseController.createObstetricCaseForm);
+
+// API for create or stroke case form 
+router.post("/v1/stroke", caseController.createStrokeCaseForm);
 
 module.exports = router;

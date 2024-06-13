@@ -1,5 +1,5 @@
 const { HTTP_STATUS_CODE } = require("../constant/general");
-const { createBasicCaseForm, updateBasicCaseForm, createCardiacCaseForm, updateCardiacCaseForm } = require("../services/caseServices");
+const { createBasicCaseForm, updateBasicCaseForm, createCardiacCaseForm, updateCardiacCaseForm, createNeonatalCaseForm, createObstetricCaseForm, createStrokeCaseForm } = require("../services/caseServices");
 
 
 
@@ -92,5 +92,55 @@ exports.updateCardiacCaseForm = async (req, res) => {
     } catch (err) {
         console.log('err', err)
         res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during updating Cardiac case form ", errors: err }))
+    }
+}
+
+// function used to create or update neonatal case form
+exports.createNeonatalCaseForm = async (req, res) => {
+    try {
+        let result = await createNeonatalCaseForm(req.body);
+        if (result.success) {
+            res.status(HTTP_STATUS_CODE.OK).json(result)
+        } else {
+            res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(result);
+            return;
+        }
+    } catch (err) {
+        console.log('err', err)
+        res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during creating neonatal case form ", errors: err }))
+    }
+}
+
+
+// function used to create or update obstetric case form
+exports.createObstetricCaseForm = async (req, res) => {
+    try {
+        let result = await createObstetricCaseForm(req.body);
+        if (result.success) {
+            res.status(HTTP_STATUS_CODE.OK).json(result)
+        } else {
+            res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(result);
+            return;
+        }
+    } catch (err) {
+        console.log('err', err)
+        res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during creating obstetric case form ", errors: err }))
+    }
+}
+
+
+// function used to create or update stroke case form
+exports.createStrokeCaseForm = async (req, res) => {
+    try {
+        let result = await createStrokeCaseForm(req.body);
+        if (result.success) {
+            res.status(HTTP_STATUS_CODE.OK).json(result)
+        } else {
+            res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(result);
+            return;
+        }
+    } catch (err) {
+        console.log('err', err)
+        res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during creating stroke case form ", errors: err }))
     }
 }

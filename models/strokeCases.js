@@ -26,7 +26,7 @@ const strokeCasesSchema = new mongoose.Schema({
 strokeCasesSchema.index({ "patientId": 1, "caseId": 1 }, { unique: true })
 strokeCasesSchema.set("timestamps", true)
 
-module.exports = StrokeCasesSchema = mongoDbConn.model("cardiacCases", strokeCasesSchema);
+module.exports = StrokeCases = mongoDbConn.model("stroke_cases", strokeCasesSchema);
 
 
 

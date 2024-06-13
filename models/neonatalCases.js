@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 // import mongo db connection 
 const { mongoDbConn } = require("../mongo")
 
-const strokeCasesSchema = new mongoose.Schema({
+const neonatalCasesSchema = new mongoose.Schema({
     patientId: { type: String, default: "", required: true },
     caseId: { type: String, default: "", required: true },
     date: { type: Date, default: new Date() },
@@ -27,10 +27,10 @@ const strokeCasesSchema = new mongoose.Schema({
 
 });
 
-strokeCasesSchema.index({ "patientId": 1, "caseId": 1 }, { unique: true })
-strokeCasesSchema.set("timestamps", true)
+neonatalCasesSchema.index({ "patientId": 1, "caseId": 1 }, { unique: true })
+neonatalCasesSchema.set("timestamps", true)
 
-module.exports = StrokeCasesSchema = mongoDbConn.model("cardiacCases", strokeCasesSchema);
+module.exports = NeonatalCasesSchema = mongoDbConn.model("neonatal_cases", neonatalCasesSchema);
 
 
 

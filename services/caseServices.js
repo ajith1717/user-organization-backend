@@ -1,4 +1,4 @@
-const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO } = require("../dataAccess/casesDAO");
+const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload } = require("../dataAccess/casesDAO");
 const { createOrUpdatePatientDetails } = require("./patientServices");
 
 
@@ -34,6 +34,10 @@ exports.updateBasicCaseForm = async (caseDetails) => {
 exports.createCardiacCaseForm = async (caseDetails) => {
     try {
         let caseDetailsData = await createCardiaCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+        if (caseDetailsData.success) {
+            // update isSpecialCase to true
+            await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { isSpecialCase: true })
+        }
         return caseDetailsData
     } catch (error) {
         console.log(error)
@@ -46,6 +50,10 @@ exports.createCardiacCaseForm = async (caseDetails) => {
 exports.updateCardiacCaseForm = async (caseDetails) => {
     try {
         let caseDetailsData = await createCardiaCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+        if (caseDetailsData.success) {
+            // update isSpecialCase to true
+            await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "cardiac" })
+        }
         return caseDetailsData
     } catch (error) {
         console.log(error)
@@ -58,6 +66,10 @@ exports.updateCardiacCaseForm = async (caseDetails) => {
 exports.createNeonatalCaseForm = async (caseDetails) => {
     try {
         let caseDetailsData = await createNeonatalCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+        if (caseDetailsData.success) {
+            // update isSpecialCase to true
+            await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "neonatal" })
+        }
         return caseDetailsData
     } catch (error) {
         console.log(error)
@@ -70,6 +82,10 @@ exports.createNeonatalCaseForm = async (caseDetails) => {
 exports.createObstetricCaseForm = async (caseDetails) => {
     try {
         let caseDetailsData = await createObstetricCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+        if (caseDetailsData.success) {
+            // update isSpecialCase to true
+            await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "obstetric" })
+        }
         return caseDetailsData
     } catch (error) {
         console.log(error)
@@ -82,6 +98,10 @@ exports.createObstetricCaseForm = async (caseDetails) => {
 exports.createStrokeCaseForm = async (caseDetails) => {
     try {
         let caseDetailsData = await createStrokeCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+        if (caseDetailsData.success) {
+            // update isSpecialCase to true
+            await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "stroke" })
+        }
         return caseDetailsData
     } catch (error) {
         console.log(error)
@@ -115,6 +135,28 @@ exports.createFollowUpForm = async (caseDetails) => {
         }
         let caseDetailsData = await createFollowUpFormDAO({ caseId: caseDetails?.caseId, formId: caseDetails?.formId }, caseDetails)
         return caseDetailsData
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+
+// Function used to fetch all forms using given payload
+exports.getAllForms = async (payload) => {
+    try {
+        // 
+        // fetch all basic case form 
+        let basicCaseForm = await fetchAllBasicFormWithGivenPayload(payload)
+        if (basicCaseForm.success) {
+            return basicCaseForm
+        } else {
+            return {
+                success: false,
+                msg: "Error occurred during fetching all forms",
+                errors: basicCaseForm.errors
+            }
+        }
     } catch (error) {
         console.log(error)
         throw error;

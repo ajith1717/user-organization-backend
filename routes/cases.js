@@ -34,5 +34,8 @@ router.post("/v1/management", caseController.createManagementForm);
 // API for create or update follow up form 
 router.post("/v1/followup", caseController.createFollowUpForm);
 
+// API for Fetching all forms
+router.post("/v1/list", caseController.getAllForms);
+
 
 module.exports = router;

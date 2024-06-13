@@ -176,3 +176,21 @@ exports.createFollowUpForm = async (req, res) => {
         res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during creating follow up form ", errors: err }))
     }
 }
+
+
+// function used to fetch all forms 
+exports.getAllForms = async (req, res) => {
+    try {
+
+        let result = await getAllForms(req.body);
+        if (result.success) {
+            res.status(HTTP_STATUS_CODE.OK).json(result)
+        } else {
+            res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(result);
+            return;
+        }
+    } catch (err) {
+        console.log('err', err)
+        res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during fetching all forms ", errors: err }))
+    }
+}

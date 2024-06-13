@@ -76,6 +76,7 @@ const caseSchema = new mongoose.Schema({
     prescription: { type: String, default: "" },
     followUp: { type: String, default: "" },
     returnToEr: { type: String, default: "" },
+    specialCase: { type: String, default: "" },
 
 });
 

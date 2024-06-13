@@ -174,3 +174,49 @@ exports.createFollowUpFormDAO = async (updatePayload, payload) => {
     }
 }
 
+
+// function used to fetch all forms with special case filter , page , size and search query 
+// need aggregation to filter out the data
+exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
+    // specialCase filter 
+    // pagination 
+    // search query for primaryDoctorName
+    let skip = 10
+    const pipeline = [
+        {
+            $match: {
+                specialCase: payload.specialCase
+            }
+        },
+        {
+            $skip: payload.page * skip
+        },
+        {
+            $limit: skip
+        }
+    ]
+    if (payload.searchQuery != null && payload.searchQuery != "") {
+        pipeline.push({
+            $match: {
+                primaryDoctorName: {
+                    $regex: payload.searchQuery,
+                    $options: 'i'
+                },
+                condition: {
+                    $regex: payload.searchQuery,
+                    $options: 'i'
+                }
+            }
+        })
+    }
+    return cases.aggregate(pipeline)
+        .then(result => {
+            return {
+                success: true,
+                data: result[0].uniqueValues
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching cases list`, err)
+            throw err;
+        })
+}

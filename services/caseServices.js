@@ -7,7 +7,7 @@ const { createOrUpdatePatientDetails } = require("./patientServices");
 exports.createBasicCaseForm = async (caseDetails) => {
     try {
         // create or update the patient details 
-        await createOrUpdatePatientDetails(caseDetails.patientDetails)
+        await createOrUpdatePatientDetails(caseDetails?.patientDetails)
         caseDetails.caseId = Math.random().toString(36).substring(2, 8).toUpperCase()
         let caseDetailsData = await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
         return caseDetailsData
@@ -82,6 +82,22 @@ exports.createObstetricCaseForm = async (caseDetails) => {
 exports.createStrokeCaseForm = async (caseDetails) => {
     try {
         let caseDetailsData = await createStrokeCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+        return caseDetailsData
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+
+// function used to create or update management form
+exports.createManagementForm = async (caseDetails) => {
+    try {
+        // create random formId 
+        if (caseDetails?.formId == null) {
+            caseDetails.formId = Math.random().toString(36).substring(2, 8).toUpperCase()
+        }
+        let caseDetailsData = await createManagementFormDAO({ caseId: caseDetails?.caseId, formId: caseDetails?.formId }, caseDetails)
         return caseDetailsData
     } catch (error) {
         console.log(error)

@@ -19,7 +19,7 @@ exports.createBasicCaseFormDAO = async (updatePayload, payload) => {
                 return {
                     success: true,
                     data: result,
-                    msg: "Successfully create or update  basic case form"
+                    msg: "Successfully create a basic form"
                 }
             }).catch(error => {
                 console.log(error)
@@ -44,7 +44,7 @@ exports.createCardiaCaseFormDAO = async (updatePayload, payload) => {
                 return {
                     success: true,
                     data: result,
-                    msg: "Successfully create or update  cardiac case form"
+                    msg: "Successfully create a Cardiac form"
                 }
             }).catch(error => {
                 console.log(error)
@@ -70,7 +70,7 @@ exports.createNeonatalCaseFormDAO = async (updatePayload, payload) => {
                 return {
                     success: true,
                     data: result,
-                    msg: "Successfully create or update  cardiac case form"
+                    msg: "Successfully create a Neonatal form"
                 }
             }).catch(error => {
                 console.log(error)
@@ -95,7 +95,7 @@ exports.createObstetricCaseFormDAO = async (updatePayload, payload) => {
                 return {
                     success: true,
                     data: result,
-                    msg: "Successfully create or update  cardiac case form"
+                    msg: "Successfully create a Obstetric form"
                 }
             }).catch(error => {
                 console.log(error)
@@ -120,7 +120,7 @@ exports.createStrokeCaseFormDAO = async (updatePayload, payload) => {
                 return {
                     success: true,
                     data: result,
-                    msg: "Successfully create or update  cardiac case form"
+                    msg: "Successfully create a Stroke form"
                 }
             }).catch(error => {
                 console.log(error)
@@ -131,3 +131,5 @@ exports.createStrokeCaseFormDAO = async (updatePayload, payload) => {
         throw err
     }
 }
+
+// 

@@ -28,4 +28,11 @@ router.post("/v1/obstetric", caseController.createObstetricCaseForm);
 // API for create or stroke case form 
 router.post("/v1/stroke", caseController.createStrokeCaseForm);
 
+// API for create or update management form
+router.post("/v1/management", caseController.createManagementForm);
+
+// API for create or update follow up form 
+router.post("/v1/followup", caseController.createFollowUpForm);
+
+
 module.exports = router;

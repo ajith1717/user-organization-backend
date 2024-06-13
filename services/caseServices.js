@@ -1,4 +1,4 @@
-const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO } = require("../dataAccess/casesDAO");
+const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO } = require("../dataAccess/casesDAO");
 const { createOrUpdatePatientDetails } = require("./patientServices");
 
 
@@ -98,6 +98,22 @@ exports.createManagementForm = async (caseDetails) => {
             caseDetails.formId = Math.random().toString(36).substring(2, 8).toUpperCase()
         }
         let caseDetailsData = await createManagementFormDAO({ caseId: caseDetails?.caseId, formId: caseDetails?.formId }, caseDetails)
+        return caseDetailsData
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+
+// function used to create or update follow up form
+exports.createFollowUpForm = async (caseDetails) => {
+    try {
+        // create random formId 
+        if (caseDetails?.formId == null) {
+            caseDetails.formId = Math.random().toString(36).substring(2, 8).toUpperCase()
+        }
+        let caseDetailsData = await createFollowUpFormDAO({ caseId: caseDetails?.caseId, formId: caseDetails?.formId }, caseDetails)
         return caseDetailsData
     } catch (error) {
         console.log(error)

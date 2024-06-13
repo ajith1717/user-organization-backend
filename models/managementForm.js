@@ -18,7 +18,7 @@ const managementFormSchema = new mongoose.Schema({
 managementFormSchema.index({ "patientId": 1, "caseId": 1, "formId": 1 }, { unique: true })
 managementFormSchema.set("timestamps", true)
 
-module.exports = FollowUp = mongoDbConn.model("management_form", managementFormSchema);
+module.exports = ManagementForm = mongoDbConn.model("management_form", managementFormSchema);
 
 
 

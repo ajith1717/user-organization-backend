@@ -1,5 +1,5 @@
 const { HTTP_STATUS_CODE } = require("../constant/general");
-const { createBasicCaseForm, updateBasicCaseForm, createCardiacCaseForm, updateCardiacCaseForm, createNeonatalCaseForm, createObstetricCaseForm, createStrokeCaseForm } = require("../services/caseServices");
+const { createBasicCaseForm, updateBasicCaseForm, createCardiacCaseForm, updateCardiacCaseForm, createNeonatalCaseForm, createObstetricCaseForm, createStrokeCaseForm, createManagementForm, createFollowUpForm } = require("../services/caseServices");
 
 
 
@@ -142,5 +142,37 @@ exports.createStrokeCaseForm = async (req, res) => {
     } catch (err) {
         console.log('err', err)
         res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during creating stroke case form ", errors: err }))
+    }
+}
+
+// function used to create or update management form
+exports.createManagementForm = async (req, res) => {
+    try {
+        let result = await createManagementForm(req.body);
+        if (result.success) {
+            res.status(HTTP_STATUS_CODE.OK).json(result)
+        } else {
+            res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(result);
+            return;
+        }
+    } catch (err) {
+        console.log('err', err)
+        res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during creating management form ", errors: err }))
+    }
+}
+
+// function used to create or update follow up form
+exports.createFollowUpForm = async (req, res) => {
+    try {
+        let result = await createFollowUpForm(req.body);
+        if (result.success) {
+            res.status(HTTP_STATUS_CODE.OK).json(result)
+        } else {
+            res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(result);
+            return;
+        }
+    } catch (err) {
+        console.log('err', err)
+        res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during creating follow up form ", errors: err }))
     }
 }

@@ -11,7 +11,7 @@ router.post("/v1", caseController.createBasicCaseForm);
 router.put("/v1", caseController.updateBasicCaseForm);
 
 // API for get case form
-router.get("/v1", caseController.getBasicCaseForm);
+// router.get("/v1", caseController.getBasicCaseForm);
 router.get("/", (req, res) => {
     res.send("Cases route");
 });
@@ -36,6 +36,9 @@ router.post("/v1/followup", caseController.createFollowUpForm);
 
 // API for Fetching all forms
 router.post("/v1/list", caseController.getAllForms);
+
+// API for getting form details using caseId
+router.get("/v1/:caseId", caseController.getFormDetails);
 
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload } = require("../dataAccess/casesDAO");
+const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload, fetchBasicCaseDetailsByCaseId, fetchCardiacCaseDetailsByCaseId, fetchNeonatalCaseDetailsByCaseId, fetchObstetricCaseDetailsByCaseId, fetchStrokeCaseDetailsByCaseId, fetchManagementFormDetailsByCaseId, fetchFollowUpFormDetailsByCaseId } = require("../dataAccess/casesDAO");
 const { createOrUpdatePatientDetails } = require("./patientServices");
 
 
@@ -157,6 +157,43 @@ exports.getAllForms = async (payload) => {
                 errors: basicCaseForm.errors
             }
         }
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+// function used to fetch case details using caseId
+exports.getFormDetailsByCaseId = async (caseId, type, formId) => {
+    try {
+        // fetch basic form details using caseId
+        let caseDetails
+        if (type == "basic") {
+            caseDetails = await fetchBasicCaseDetailsByCaseId(caseId)
+        } else if (type == "cardiac") {
+            caseDetails = await fetchCardiacCaseDetailsByCaseId(caseId)
+        } else if (type == "neonatal") {
+            caseDetails = await fetchNeonatalCaseDetailsByCaseId(caseId)
+        } else if (type == "obstetric") {
+            caseDetails = await fetchObstetricCaseDetailsByCaseId(caseId)
+        } else if (type == "stroke") {
+            caseDetails = await fetchStrokeCaseDetailsByCaseId(caseId)
+        } else if (type == "management") {
+            caseDetails = await fetchManagementFormDetailsByCaseId(caseId, formId)
+        } else if (type == "followup") {
+            caseDetails = await fetchFollowUpFormDetailsByCaseId(caseId, formId)
+        }
+        if (caseDetails?.success) {
+            return caseDetails
+        } else {
+            return {
+                success: false,
+                msg: "Error occurred during fetching case details by case id ",
+                errors: caseDetails?.errors
+            }
+        }
+
+
     } catch (error) {
         console.log(error)
         throw error;

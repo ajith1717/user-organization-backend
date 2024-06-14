@@ -5,6 +5,7 @@ const obstetricCases = require("../models/obstetricCases")
 const strokeCases = require("../models/strokeCases")
 const ManagementForm = require("../models/managementForm")
 const followUpForm = require("../models/followUpForm")
+const managementForm = require("../models/managementForm")
 
 
 
@@ -185,7 +186,7 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
     const pipeline = [
         {
             $match: {
-                specialCase: payload.specialCase
+                specialCase: payload.type
             }
         },
         {
@@ -198,14 +199,12 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
     if (payload.searchQuery != null && payload.searchQuery != "") {
         pipeline.push({
             $match: {
-                primaryDoctorName: {
-                    $regex: payload.searchQuery,
-                    $options: 'i'
-                },
-                condition: {
-                    $regex: payload.searchQuery,
-                    $options: 'i'
-                }
+                $or: [
+                    { caseId: { $regex: payload.searchQuery, $options: "i" } },
+                    { name: { $regex: payload.searchQuery, $options: "i" } },
+                    { primaryDoctorName: { $regex: payload.searchQuery, $options: "i" } },
+                    { complaints: { $regex: payload.searchQuery, $options: "i" } },
+                ]
             }
         })
     }
@@ -213,10 +212,111 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
         .then(result => {
             return {
                 success: true,
-                data: result[0].uniqueValues
+                data: result
             }
         }).catch(err => {
             console.log(`error occurred during fetching cases list`, err)
+            throw err;
+        })
+}
+
+
+// function used to fetch basic case Details by case Id
+exports.fetchBasicCaseDetailsByCaseId = async (caseId) => {
+    return cases.findOne({ caseId: caseId }).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching basic cases list`, err)
+            throw err;
+        })
+}
+
+
+// function used to fetch cardiac case details by caseId
+exports.fetchCardiacCaseDetailsByCaseId = async (caseId) => {
+    return CardiacCases.findOne({ caseId: caseId }).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching cardiac cases list`, err)
+            throw err;
+        })
+}
+
+// function used to fetch neonatal case details by caseId
+exports.fetchNeonatalCaseDetailsByCaseId = async (caseId) => {
+    return NeonatalCases.findOne({ caseId: caseId }).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching neonatal cases list`, err)
+            throw err;
+        })
+}
+
+// function used to fetch obstetric case details by caseId
+exports.fetchObstetricCaseDetailsByCaseId = async (caseId) => {
+    return obstetricCases.findOne({ caseId: caseId }).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching obstetric cases list`, err)
+            throw err;
+        })
+}
+
+// function used to fetch stroke case details by caseId
+exports.fetchStrokeCaseDetailsByCaseId = async (caseId) => {
+    return strokeCases.findOne({ caseId: caseId }).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching stroke cases list`, err)
+            throw err;
+        })
+}
+
+
+// function used to fetch management form details by caseId, formId
+exports.fetchManagementFormDetailsByCaseId = async (caseId, formId) => {
+    return managementForm.findOne({ caseId: caseId, formId: formId }).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching management form `, err)
+            throw err;
+        })
+}
+
+// function used to fetch follow up form details by caseId, formId
+exports.fetchFollowUpFormDetailsByCaseId = async (caseId, formId) => {
+    return followUpForm.findOne({ caseId: caseId, formId: formId }).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching follow up form `, err)
             throw err;
         })
 }

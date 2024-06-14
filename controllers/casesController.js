@@ -1,5 +1,5 @@
 const { HTTP_STATUS_CODE } = require("../constant/general");
-const { createBasicCaseForm, updateBasicCaseForm, createCardiacCaseForm, updateCardiacCaseForm, createNeonatalCaseForm, createObstetricCaseForm, createStrokeCaseForm, createManagementForm, createFollowUpForm } = require("../services/caseServices");
+const { createBasicCaseForm, updateBasicCaseForm, createCardiacCaseForm, updateCardiacCaseForm, createNeonatalCaseForm, createObstetricCaseForm, createStrokeCaseForm, createManagementForm, createFollowUpForm, getAllForms, getFormDetailsByCaseId } = require("../services/caseServices");
 
 
 
@@ -192,5 +192,25 @@ exports.getAllForms = async (req, res) => {
     } catch (err) {
         console.log('err', err)
         res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during fetching all forms ", errors: err }))
+    }
+}
+
+
+// function used to fetch form details using caseId
+exports.getFormDetails = async (req, res) => {
+    try {
+        const caseId = req.params.caseId
+        const type = req.query.type
+        const formId = req.query.formId
+        let result = await getFormDetailsByCaseId(caseId, type, formId);
+        if (result.success) {
+            res.status(HTTP_STATUS_CODE.OK).json(result)
+        } else {
+            res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(result);
+            return;
+        }
+    } catch (err) {
+        console.log('err', err)
+        res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during fetching form details using caseId", errors: err }))
     }
 }

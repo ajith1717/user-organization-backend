@@ -12,16 +12,18 @@ const neonatalCasesSchema = new mongoose.Schema({
     indication: { type: String, default: "" },
     gestation: { type: String, default: "" },
     apgar: { type: String, default: "" },
-    antenatalSteroid: { type: Boolean, default: false },
+    antenatalSteroid: { type: String, default: "" },
     maternalBloodGroup: { type: String, default: "" },
     babyBloodGroup: { type: String, default: "" },
     babyG6PD: { type: String, default: "" },
     resuscitation: { type: String, default: "" },
-    feeding: {
-        breast: { type: Boolean, default: false },
-        formula: { type: Boolean, default: false },
-        notes: { type: String, default: "" },
-    },
+    feeding: { type: String, default: "" },
+
+    // feeding: {
+    //     breast: { type: Boolean, default: false },
+    //     formula: { type: Boolean, default: false },
+    //     notes: { type: String, default: "" },
+    // },
     hopi: { type: String, default: "" },
 
 

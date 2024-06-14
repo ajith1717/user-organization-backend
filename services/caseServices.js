@@ -1,4 +1,4 @@
-const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload, fetchBasicCaseDetailsByCaseId, fetchCardiacCaseDetailsByCaseId, fetchNeonatalCaseDetailsByCaseId, fetchObstetricCaseDetailsByCaseId, fetchStrokeCaseDetailsByCaseId, fetchManagementFormDetailsByCaseId, fetchFollowUpFormDetailsByCaseId } = require("../dataAccess/casesDAO");
+const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload, fetchBasicCaseDetailsByCaseId, fetchCardiacCaseDetailsByCaseId, fetchNeonatalCaseDetailsByCaseId, fetchObstetricCaseDetailsByCaseId, fetchStrokeCaseDetailsByCaseId, fetchManagementFormDetailsByCaseId, fetchFollowUpFormDetailsByCaseId, fetchSummaryCaseDetailsByCaseId } = require("../dataAccess/casesDAO");
 const { createOrUpdatePatientDetails } = require("./patientServices");
 
 
@@ -36,7 +36,7 @@ exports.createCardiacCaseForm = async (caseDetails) => {
         let caseDetailsData = await createCardiaCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
         if (caseDetailsData.success) {
             // update isSpecialCase to true
-            await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { isSpecialCase: true })
+            await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "cardiac" })
         }
         return caseDetailsData
     } catch (error) {
@@ -194,6 +194,70 @@ exports.getFormDetailsByCaseId = async (caseId, type, formId) => {
         }
 
 
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+
+// function used to fetch summary page details using caseId
+exports.getSummaryPageDetailsByCaseId = async (caseId) => {
+    try {
+        // fetch basic form details using caseId
+        let basicCaseForm = await fetchSummaryCaseDetailsByCaseId(caseId)
+        if (basicCaseForm.success) {
+            basicCaseForm.data = basicCaseForm.data[0]
+            if (basicCaseForm.data != null) {
+                basicCaseForm.data.drugALlergies = ""
+                // format structure
+                let caseForms = []
+                caseForms.push({ type: "basic", caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.createdAt })
+                if (basicCaseForm.data.specialCase) {
+                    if (basicCaseForm.data.specialCase == "cardiac") {
+                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.cardiac_cases[0].createdAt })
+                    } else if (basicCaseForm.data.specialCase == "neonatal") {
+                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.neonatal_cases[0].createdAt })
+                    } else if (basicCaseForm.data.specialCase == "obstetric") {
+                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.obstetric_cases[0].createdAt })
+                    } else if (basicCaseForm.data.specialCase == "stroke") {
+                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.stroke_cases[0].createdAt })
+                    } else {
+                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.createdAt })
+                    }
+                }
+                if (basicCaseForm.data.management_forms) {
+                    basicCaseForm.data.management_forms.forEach(form => {
+                        caseForms.push({ type: "management", caseId: basicCaseForm.data.caseId, formId: form.formId, date: form.date })
+                    });
+                }
+                if (basicCaseForm.data.follow_up_forms) {
+                    basicCaseForm.data.follow_up_forms.forEach(form => {
+                        caseForms.push({ type: "followup", caseId: basicCaseForm.data.caseId, formId: form.formId, date: form.date })
+                    });
+                }
+                // delete 
+                delete basicCaseForm.data.management_forms
+                delete basicCaseForm.data.follow_up_forms
+                delete basicCaseForm.data.cardiac_cases
+                delete basicCaseForm.data.neonatal_cases
+                delete basicCaseForm.data.obstetric_cases
+                delete basicCaseForm.data.stroke_cases
+
+                basicCaseForm.data.caseForms = caseForms
+            }
+
+            return {
+                success: true,
+                data: basicCaseForm
+            }
+        } else {
+            return {
+                success: false,
+                msg: "Error occurred during fetching summary details",
+                errors: basicCaseForm.errors
+            }
+        }
     } catch (error) {
         console.log(error)
         throw error;

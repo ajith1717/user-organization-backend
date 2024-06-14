@@ -41,4 +41,8 @@ router.post("/v1/list", caseController.getAllForms);
 router.get("/v1/:caseId", caseController.getFormDetails);
 
 
+// API for  fetching summary page details using caseId
+router.get("/v1/summary/:caseId", caseController.getSummaryDetails);
+
+
 module.exports = router;

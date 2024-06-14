@@ -320,3 +320,185 @@ exports.fetchFollowUpFormDetailsByCaseId = async (caseId, formId) => {
             throw err;
         })
 }
+
+
+exports.fetchSummaryCaseDetailsByCaseId = async (caseId) => {
+    const pipeline = [
+        {
+            '$match': {
+                'caseId': caseId
+            }
+        }, {
+            '$lookup': {
+                'from': 'patients',
+                'localField': 'patientId',
+                'foreignField': 'patientId',
+                'as': 'patientDetails'
+            }
+        }, {
+            '$unwind': {
+                'path': '$patientDetails'
+            }
+        }, {
+            '$lookup': {
+                'from': 'follow_ups',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'follow_up_forms'
+            }
+        }, {
+            '$lookup': {
+                'from': 'management_forms',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'management_forms'
+            }
+        },
+        {
+            '$lookup': {
+                'from': 'cardiac_cases',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'cardiac_cases'
+            }
+        },
+
+        {
+            '$lookup': {
+                'from': 'stroke_cases',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'stroke_cases'
+            }
+        },
+
+        {
+            '$lookup': {
+                'from': 'neonatal_cases',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'neonatal_cases'
+            }
+        },
+
+        {
+            '$lookup': {
+                'from': 'obstetric_cases',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'obstetric_cases'
+            }
+        },
+
+        , {
+            '$project': {
+                _id: 0,
+                caseId: 1,
+                arrivalDate: 1,
+                createdAt: 1,
+                patientId: 1,
+                primaryDoctorCode: 1,
+                primaryDoctorName: 1,
+                specialCase: 1,
+                patientDetails: 1,
+                follow_up_forms: 1,
+                management_forms: 1,
+                cardiac_cases: 1,
+                stroke_cases: 1,
+                neonatal_cases: 1,
+                obstetric_cases: 1,
+
+
+            }
+        }
+    ]
+
+    const pipeline1 = [
+        {
+            '$match': {
+                'caseId': caseId
+            }
+        }, {
+            '$lookup': {
+                'from': 'patients',
+                'localField': 'patientId',
+                'foreignField': 'patientId',
+                'as': 'patientDetails'
+            }
+        }, {
+            '$unwind': {
+                'path': '$patientDetails'
+            }
+        }, {
+            '$lookup': {
+                'from': 'follow_ups',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'follow_up_forms'
+            }
+        }, {
+            '$lookup': {
+                'from': 'management_forms',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'management_forms'
+            }
+        }, {
+            '$lookup': {
+                'from': 'cardiac_cases',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'cardiac_cases'
+            }
+        }, {
+            '$lookup': {
+                'from': 'stroke_cases',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'stroke_cases'
+            }
+        }, {
+            '$lookup': {
+                'from': 'neonatal_cases',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'neonatal_cases'
+            }
+        }, {
+            '$lookup': {
+                'from': 'obstetric_cases',
+                'localField': 'caseId',
+                'foreignField': 'caseId',
+                'as': 'obstetric_cases'
+            }
+        }, {
+            '$project': {
+                '_id': 0,
+                'caseId': 1,
+                'arrivalDate': 1,
+                'createdAt': 1,
+                'patientId': 1,
+                'primaryDoctorCode': 1,
+                'primaryDoctorName': 1,
+                'specialCase': 1,
+                'patientDetails': 1,
+                'follow_up_forms': 1,
+                'management_forms': 1,
+                'cardiac_cases': 1,
+                'stroke_cases': 1,
+                'neonatal_cases': 1,
+                'obstetric_cases': 1
+            }
+        }
+    ]
+    return cases.aggregate(pipeline1)
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching cases list`, err)
+            throw err;
+        })
+}

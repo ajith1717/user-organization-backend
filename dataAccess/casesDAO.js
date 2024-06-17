@@ -204,7 +204,7 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
             }
         })
     }
-    if (payload.type == "" && payload.type != null) {
+    if (payload.type != "" && payload.type != null) {
         pipeline.push({
             $match: {
                 specialCase: payload.type

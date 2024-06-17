@@ -190,6 +190,19 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
         },
         {
             $limit: skip
+        },
+        {
+            $lookup: {
+                from: "patients",
+                localField: "patientId",
+                foreignField: "patientId",
+                as: "patientDetails"
+            }
+        },
+        {
+            $unwind: {
+                path: "$patientDetails"
+            }
         }
     ]
     if (payload.searchQuery != null && payload.searchQuery != "") {

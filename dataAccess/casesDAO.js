@@ -184,11 +184,7 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
     // search query for primaryDoctorName
     let skip = 10
     const pipeline = [
-        {
-            $match: {
-                specialCase: payload.type
-            }
-        },
+
         {
             $skip: payload.page * skip
         },
@@ -205,6 +201,13 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
                     { primaryDoctorName: { $regex: payload.searchQuery, $options: "i" } },
                     { complaints: { $regex: payload.searchQuery, $options: "i" } },
                 ]
+            }
+        })
+    }
+    if (payload.type == "" && payload.type != null) {
+        pipeline.push({
+            $match: {
+                specialCase: payload.type
             }
         })
     }

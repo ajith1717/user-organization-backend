@@ -224,6 +224,17 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
             }
         })
     }
+    pipeline.push({
+        '$project': {
+            'patientId': 1,
+            'caseId': 1,
+            'patient': 'patientDetails.name',
+            'arrivalDate': 1,
+            'primaryDoctorCode': 1,
+            'primaryDoctorName': 1,
+            'specialCase': 1
+        }
+    })
     return cases.aggregate(pipeline)
         .then(result => {
             return {

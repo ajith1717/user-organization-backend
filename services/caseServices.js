@@ -247,10 +247,7 @@ exports.getSummaryPageDetailsByCaseId = async (caseId) => {
                 basicCaseForm.data.caseForms = caseForms
             }
 
-            return {
-                success: true,
-                data: basicCaseForm
-            }
+            return basicCaseForm
         } else {
             return {
                 success: false,

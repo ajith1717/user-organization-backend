@@ -215,34 +215,34 @@ exports.getSummaryPageDetailsByCaseId = async (caseId) => {
                 caseForms.push({ type: "basic", caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.createdAt })
                 if (basicCaseForm.data.specialCase) {
                     if (basicCaseForm.data.specialCase == "cardiac") {
-                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.cardiac_cases[0].createdAt })
-                    } else if (basicCaseForm.data.specialCase == "neonatal") {
-                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.neonatal_cases[0].createdAt })
-                    } else if (basicCaseForm.data.specialCase == "obstetric") {
-                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.obstetric_cases[0].createdAt })
-                    } else if (basicCaseForm.data.specialCase == "stroke") {
-                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.stroke_cases[0].createdAt })
+                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm?.data?.cardiac_cases[0]?.createdAt })
+                    } else if (basicCaseForm?.data?.specialCase == "neonatal") {
+                        caseForms?.push({ type: basicCaseForm?.data?.specialCase, caseId: basicCaseForm?.data?.caseId, date: basicCaseForm?.data?.neonatal_cases[0]?.createdAt })
+                    } else if (basicCaseForm?.data?.specialCase == "obstetric") {
+                        caseForms?.push({ type: basicCaseForm?.data?.specialCase, caseId: basicCaseForm?.data?.caseId, date: basicCaseForm?.data?.obstetric_cases[0]?.createdAt })
+                    } else if (basicCaseForm?.data?.specialCase == "stroke") {
+                        caseForms?.push({ type: basicCaseForm?.data?.specialCase, caseId: basicCaseForm?.data?.caseId, date: basicCaseForm?.data?.stroke_cases[0]?.createdAt })
                     } else {
-                        caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.createdAt })
+                        caseForms?.push({ type: basicCaseForm?.data?.specialCase, caseId: basicCaseForm?.data?.caseId, date: basicCaseForm?.data?.createdAt })
                     }
                 }
-                if (basicCaseForm.data.management_forms) {
-                    basicCaseForm.data.management_forms.forEach(form => {
-                        caseForms.push({ type: "management", caseId: basicCaseForm.data.caseId, formId: form.formId, date: form.date })
+                if (basicCaseForm?.data?.management_forms) {
+                    basicCaseForm?.data?.management_forms?.forEach(form => {
+                        caseForms?.push({ type: "management", caseId: basicCaseForm?.data?.caseId, formId: form?.formId, date: form?.date })
                     });
                 }
-                if (basicCaseForm.data.follow_up_forms) {
-                    basicCaseForm.data.follow_up_forms.forEach(form => {
-                        caseForms.push({ type: "followup", caseId: basicCaseForm.data.caseId, formId: form.formId, date: form.date })
+                if (basicCaseForm?.data?.follow_up_forms) {
+                    basicCaseForm?.data?.follow_up_forms?.forEach(form => {
+                        caseForms?.push({ type: "followup", caseId: basicCaseForm?.data?.caseId, formId: form?.formId, date: form?.date })
                     });
                 }
                 // delete 
-                delete basicCaseForm.data.management_forms
-                delete basicCaseForm.data.follow_up_forms
-                delete basicCaseForm.data.cardiac_cases
-                delete basicCaseForm.data.neonatal_cases
-                delete basicCaseForm.data.obstetric_cases
-                delete basicCaseForm.data.stroke_cases
+                delete basicCaseForm?.data?.management_forms
+                delete basicCaseForm?.data?.follow_up_forms
+                delete basicCaseForm?.data?.cardiac_cases
+                delete basicCaseForm?.data?.neonatal_cases
+                delete basicCaseForm?.data?.obstetric_cases
+                delete basicCaseForm?.data?.stroke_cases
 
                 basicCaseForm.data.caseForms = caseForms
             }

@@ -213,6 +213,7 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
                     { name: { $regex: payload.searchQuery, $options: "i" } },
                     { primaryDoctorName: { $regex: payload.searchQuery, $options: "i" } },
                     { complaints: { $regex: payload.searchQuery, $options: "i" } },
+                    { specialCase: { $regex: payload.searchQuery, $options: "i" } },
                 ]
             }
         })

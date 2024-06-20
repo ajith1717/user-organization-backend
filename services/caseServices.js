@@ -63,14 +63,14 @@ exports.createCardiacCaseForm = async (caseDetails) => {
         if (caseDetailsData.success && oldData.data != null) {
             // update isSpecialCase to true
             await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "cardiac" })
-            if (caseId != null) {
+            if (caseId != null && oldData?.data != null) {
                 // get audit changes data
                 let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "cardiac", updatedBy: caseDetails?.staffId, changes: auditData })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "cardiac", updatedBy: caseDetails?.staffId, changes: auditData })
             } else {
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "cardiac", updatedBy: caseDetails?.staffId })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "cardiac", updatedBy: caseDetails?.staffId })
             }
         }
         return caseDetailsData
@@ -115,10 +115,10 @@ exports.createNeonatalCaseForm = async (caseDetails) => {
                 let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
 
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "neonatal", updatedBy: caseDetails?.staffId, changes: auditData })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "neonatal", updatedBy: caseDetails?.staffId, changes: auditData })
             } else {
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "neonatal", updatedBy: caseDetails?.staffId })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "neonatal", updatedBy: caseDetails?.staffId })
 
             }
         }
@@ -148,10 +148,10 @@ exports.createObstetricCaseForm = async (caseDetails) => {
                 // get audit changes data
                 let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "obstetric", updatedBy: caseDetails?.staffId, changes: auditData })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "obstetric", updatedBy: caseDetails?.staffId, changes: auditData })
             } else {
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "obstetric", updatedBy: caseDetails?.staffId })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "obstetric", updatedBy: caseDetails?.staffId })
             }
 
         }
@@ -181,10 +181,10 @@ exports.createStrokeCaseForm = async (caseDetails) => {
                 let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
 
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "stroke", updatedBy: caseDetails?.staffId, changes: auditData })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "stroke", updatedBy: caseDetails?.staffId, changes: auditData })
             } else {
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "stroke", updatedBy: caseDetails?.staffId })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "stroke", updatedBy: caseDetails?.staffId })
             }
 
         }
@@ -217,10 +217,10 @@ exports.createManagementForm = async (caseDetails) => {
                 let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
 
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "management", updatedBy: caseDetails?.staffId, changes: auditData })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "management", updatedBy: caseDetails?.staffId, changes: auditData })
             } else {
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "management", updatedBy: caseDetails?.staffId })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "management", updatedBy: caseDetails?.staffId })
 
             }
         }
@@ -252,10 +252,10 @@ exports.createFollowUpForm = async (caseDetails) => {
                 // get audit changes data
                 let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "followup", updatedBy: caseDetails?.staffId, changes: auditData })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "followup", updatedBy: caseDetails?.staffId, changes: auditData })
             } else {
                 // create audit log
-                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "followup", updatedBy: caseDetails?.staffId })
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "followup", updatedBy: caseDetails?.staffId })
             }
         }
         return caseDetailsData

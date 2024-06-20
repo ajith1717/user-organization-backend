@@ -12,11 +12,30 @@ const strokeCasesSchema = new mongoose.Schema({
     preMorbidIndependent: { type: Boolean, default: false },
     syncope: { type: String, default: "" },
     seizure: { type: String, default: "" },
-    faceWeakNess: { type: String, default: "" },
-    armWeakNess: { type: String, default: "" },
-    speechDisturbance: { type: String, default: "" },
-    visualLoss: { type: String, default: "" },
-    legWeakNess: { type: String, default: "" },
+    // faceWeakNess: { type: String, default: "" },
+    faceWeakNess: {
+        yes: { type: String, default: "" },
+        no: { type: String, default: "" },
+    },
+
+    armWeakNess: {
+        yes: { type: String, default: "" },
+        no: { type: String, default: "" },
+    }, speechDisturbance: {
+        yes: { type: String, default: "" },
+        no: { type: String, default: "" },
+    }, visualLoss: {
+        yes: { type: String, default: "" },
+        no: { type: String, default: "" },
+    },
+    legWeakNess: {
+        yes: { type: String, default: "" },
+        no: { type: String, default: "" },
+    },
+    // armWeakNess: { type: String, default: "" },
+    // speechDisturbance: { type: String, default: "" },
+    // visualLoss: { type: String, default: "" },
+    // legWeakNess: { type: String, default: "" },
     total: { type: Number, default: 0 },
     notes: { type: String, default: "" },
 

@@ -371,6 +371,18 @@ exports.getSummaryPageDetailsByCaseId = async (caseId) => {
                 basicCaseForm.data.caseForms = caseForms
             }
 
+            // check the basic form arrival date is exceed 72 hrs 
+            let arrivalDate = new Date(basicCaseForm.data.arrivalDate)
+            let currentDate = new Date()
+
+            let diffTime = Math.abs(currentDate - arrivalDate);
+            let differenceInHours = diffTime / (1000 * 60 * 60);
+            basicCaseForm.data.isEditAble = differenceInHours < 72
+
+            //  in hrs 72
+
+
+
             return basicCaseForm
         } else {
             return {

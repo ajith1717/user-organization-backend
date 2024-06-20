@@ -1,4 +1,5 @@
-const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload, fetchBasicCaseDetailsByCaseId, fetchCardiacCaseDetailsByCaseId, fetchNeonatalCaseDetailsByCaseId, fetchObstetricCaseDetailsByCaseId, fetchStrokeCaseDetailsByCaseId, fetchManagementFormDetailsByCaseId, fetchFollowUpFormDetailsByCaseId, fetchSummaryCaseDetailsByCaseId } = require("../dataAccess/casesDAO");
+const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload, fetchBasicCaseDetailsByCaseId, fetchCardiacCaseDetailsByCaseId, fetchNeonatalCaseDetailsByCaseId, fetchObstetricCaseDetailsByCaseId, fetchStrokeCaseDetailsByCaseId, fetchManagementFormDetailsByCaseId, fetchFollowUpFormDetailsByCaseId, fetchSummaryCaseDetailsByCaseId, fetchBasicCaseDetailsByCaseIdByProperty, fetchCardiacCaseDetailsByCaseIdAndPropertyArray, fetchNeonatalCaseDetailsByCaseIdAndPropertyArray, fetchObstetricCaseDetailsByCaseIdAndPropertyArray, fetchStrokeCaseDetailsByCaseIdAndPropertyArray, fetchManagementFormDetailsByCaseIdAndPropertyArray, fetchFollowUpFormDetailsByCaseIdAndPropertyArray } = require("../dataAccess/casesDAO");
+const { createAuditLog, fetchAuditChangesData } = require("./aduitLogs");
 const { createOrUpdatePatientDetails } = require("./patientServices");
 
 
@@ -6,10 +7,29 @@ const { createOrUpdatePatientDetails } = require("./patientServices");
 // function used to create basic case details 
 exports.createBasicCaseForm = async (caseDetails) => {
     try {
+        const caseId = caseDetails?.caseId
+        let oldData
+        if (caseId != null) {
+            // fetch the old data using caseId for audit logs 
+            oldData = await fetchBasicCaseDetailsByCaseIdByProperty(caseId, Object.keys(caseDetails))
+
+        }
         // create or update the patient details 
         await createOrUpdatePatientDetails(caseDetails?.patientDetails)
         caseDetails.caseId = Math.random().toString(36).substring(2, 8).toUpperCase()
         let caseDetailsData = await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+        if (caseDetailsData.success) {
+            if (caseId != null && oldData.data != null) {
+                // get audit changes data 
+                let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
+                // create audit log
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "basic", updatedBy: caseDetails?.staffId, changes: auditData })
+
+            } else {
+                // create audit log
+                await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "basic", updatedBy: caseDetails?.staffId })
+            }
+        }
         return caseDetailsData
     } catch (error) {
         console.log(error)
@@ -33,10 +53,25 @@ exports.updateBasicCaseForm = async (caseDetails) => {
 // function used to create cardiac case form
 exports.createCardiacCaseForm = async (caseDetails) => {
     try {
+        const caseId = caseDetails?.caseId
+        let oldData
+        if (caseId != null) {
+            // fetch the old data using caseId for audit logs 
+            oldData = await fetchCardiacCaseDetailsByCaseIdAndPropertyArray(caseId, Object.keys(caseDetails))
+        }
         let caseDetailsData = await createCardiaCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
-        if (caseDetailsData.success) {
+        if (caseDetailsData.success && oldData.data != null) {
             // update isSpecialCase to true
             await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "cardiac" })
+            if (caseId != null) {
+                // get audit changes data
+                let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "cardiac", updatedBy: caseDetails?.staffId, changes: auditData })
+            } else {
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "cardiac", updatedBy: caseDetails?.staffId })
+            }
         }
         return caseDetailsData
     } catch (error) {
@@ -65,10 +100,27 @@ exports.updateCardiacCaseForm = async (caseDetails) => {
 // function used to create neonatal case form
 exports.createNeonatalCaseForm = async (caseDetails) => {
     try {
+        const caseId = caseDetails?.caseId
+        let oldData
+        if (caseId != null) {
+            oldData = await fetchNeonatalCaseDetailsByCaseIdAndPropertyArray(caseId, Object.keys(caseDetails))
+        }
+
         let caseDetailsData = await createNeonatalCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
         if (caseDetailsData.success) {
             // update isSpecialCase to true
             await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "neonatal" })
+            if (caseId != null && oldData?.data != null) {
+                // get audit changes data
+                let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
+
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "neonatal", updatedBy: caseDetails?.staffId, changes: auditData })
+            } else {
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "neonatal", updatedBy: caseDetails?.staffId })
+
+            }
         }
         return caseDetailsData
     } catch (error) {
@@ -81,10 +133,27 @@ exports.createNeonatalCaseForm = async (caseDetails) => {
 // function used to create or update obstetric case form
 exports.createObstetricCaseForm = async (caseDetails) => {
     try {
+        const caseId = caseDetails?.caseId
+        let oldData
+        if (caseId != null) {
+
+            oldData = await fetchObstetricCaseDetailsByCaseIdAndPropertyArray(caseId, Object.keys(caseDetails))
+        }
+
         let caseDetailsData = await createObstetricCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
         if (caseDetailsData.success) {
             // update isSpecialCase to true
             await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "obstetric" })
+            if (caseId != null && oldData?.data != null) {
+                // get audit changes data
+                let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "obstetric", updatedBy: caseDetails?.staffId, changes: auditData })
+            } else {
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "obstetric", updatedBy: caseDetails?.staffId })
+            }
+
         }
         return caseDetailsData
     } catch (error) {
@@ -97,10 +166,27 @@ exports.createObstetricCaseForm = async (caseDetails) => {
 // function used to create or update stroke case form
 exports.createStrokeCaseForm = async (caseDetails) => {
     try {
+        const caseId = caseDetails?.caseId
+        let oldData
+        if (caseId != null) {
+            oldData = await fetchStrokeCaseDetailsByCaseIdAndPropertyArray(caseId, Object.keys(caseDetails))
+        }
+
         let caseDetailsData = await createStrokeCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
         if (caseDetailsData.success) {
             // update isSpecialCase to true
             await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "stroke" })
+            if (caseId != null && oldData?.data != null) {
+                // get audit changes data
+                let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
+
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "stroke", updatedBy: caseDetails?.staffId, changes: auditData })
+            } else {
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "stroke", updatedBy: caseDetails?.staffId })
+            }
+
         }
         return caseDetailsData
     } catch (error) {
@@ -113,11 +199,31 @@ exports.createStrokeCaseForm = async (caseDetails) => {
 // function used to create or update management form
 exports.createManagementForm = async (caseDetails) => {
     try {
+        const caseId = caseDetails?.caseId
+        const formId = caseDetails?.formId
+        let oldData
+        if (formId != null) {
+            oldData = await fetchManagementFormDetailsByCaseIdAndPropertyArray(caseId, formId, Object.keys(caseDetails))
+        }
+
         // create random formId 
         if (caseDetails?.formId == null) {
             caseDetails.formId = Math.random().toString(36).substring(2, 8).toUpperCase()
         }
         let caseDetailsData = await createManagementFormDAO({ caseId: caseDetails?.caseId, formId: caseDetails?.formId }, caseDetails)
+        if (caseDetailsData.success) {
+            if (formId != null && oldData?.data != null) {
+                // get audit changes data
+                let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
+
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "management", updatedBy: caseDetails?.staffId, changes: auditData })
+            } else {
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "management", updatedBy: caseDetails?.staffId })
+
+            }
+        }
         return caseDetailsData
     } catch (error) {
         console.log(error)
@@ -129,11 +235,29 @@ exports.createManagementForm = async (caseDetails) => {
 // function used to create or update follow up form
 exports.createFollowUpForm = async (caseDetails) => {
     try {
+        const caseId = caseDetails?.caseId
+        const formId = caseDetails?.formId
+        let oldData
+        if (formId != null) {
+            oldData = await fetchFollowUpFormDetailsByCaseIdAndPropertyArray(caseId, formId, Object.keys(caseDetails))
+        }
+
         // create random formId 
         if (caseDetails?.formId == null) {
             caseDetails.formId = Math.random().toString(36).substring(2, 8).toUpperCase()
         }
         let caseDetailsData = await createFollowUpFormDAO({ caseId: caseDetails?.caseId, formId: caseDetails?.formId }, caseDetails)
+        if (caseDetailsData.success) {
+            if (caseId != null && oldData?.data != null) {
+                // get audit changes data
+                let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "update", case: "followup", updatedBy: caseDetails?.staffId, changes: auditData })
+            } else {
+                // create audit log
+                createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "followup", updatedBy: caseDetails?.staffId })
+            }
+        }
         return caseDetailsData
     } catch (error) {
         console.log(error)

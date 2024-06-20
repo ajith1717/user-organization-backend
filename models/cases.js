@@ -19,11 +19,16 @@ const caseSchema = new mongoose.Schema({
     },
     weight: {
         value: { type: Number, default: 0 },
-        measured: { type: Boolean, default: true }
+        measured: { type: Boolean, default: true },
+        estimated: { type: Boolean, default: true }
+
+
     },
     height: {
         value: { type: Number, default: 0 },
-        measured: { type: Boolean, default: true }
+        measured: { type: Boolean, default: true },
+        estimated: { type: Boolean, default: true }
+
     },
     arrivalVitalSigns: {
         pulse: { type: Number, default: 0 },

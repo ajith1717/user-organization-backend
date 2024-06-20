@@ -264,6 +264,21 @@ exports.fetchBasicCaseDetailsByCaseId = async (caseId) => {
 }
 
 
+
+// function used to fetch basic case Details by case Id
+exports.fetchBasicCaseDetailsByCaseIdByProperty = async (caseId, propertyArray) => {
+    return cases.findOne({ caseId: caseId }).select(propertyArray).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching basic cases list`, err)
+            throw err;
+        })
+}
+
 // function used to fetch cardiac case details by caseId
 exports.fetchCardiacCaseDetailsByCaseId = async (caseId) => {
     return CardiacCases.findOne({ caseId: caseId }).lean()
@@ -274,6 +289,93 @@ exports.fetchCardiacCaseDetailsByCaseId = async (caseId) => {
             }
         }).catch(err => {
             console.log(`error occurred during fetching cardiac cases list`, err)
+            throw err;
+        })
+}
+
+
+// function used to fetch cardiac case details by caseId
+exports.fetchCardiacCaseDetailsByCaseIdAndPropertyArray = async (caseId, propertyArray) => {
+    return CardiacCases.findOne({ caseId: caseId }).select(propertyArray).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching cardiac cases list`, err)
+            throw err;
+        })
+}
+
+// function used to fetch neonatal case details by caseId and propertyArray
+exports.fetchNeonatalCaseDetailsByCaseIdAndPropertyArray = async (caseId, propertyArray) => {
+    return NeonatalCases.findOne({ caseId: caseId }).select(propertyArray).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching neonatal cases list`, err)
+            throw err;
+        })
+}
+
+
+// function used to fetch obstetric case details by caseId and propertyArray
+exports.fetchObstetricCaseDetailsByCaseIdAndPropertyArray = async (caseId, propertyArray) => {
+    return obstetricCases.findOne({ caseId: caseId }).select(propertyArray).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching obstetric cases list`, err)
+            throw err;
+        })
+}
+
+// function used to fetch stroke case details by caseId and propertyArray
+exports.fetchStrokeCaseDetailsByCaseIdAndPropertyArray = async (caseId, propertyArray) => {
+    return strokeCases.findOne({ caseId: caseId }).select(propertyArray).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching stroke cases list`, err)
+            throw err;
+        })
+}
+
+
+// function used to fetch management form details by caseId and propertyArray
+exports.fetchManagementFormDetailsByCaseIdAndPropertyArray = async (caseId, formId, propertyArray) => {
+    return managementForm.findOne({ caseId: caseId, formId: formId }).select(propertyArray).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching management form `, err)
+            throw err;
+        })
+}
+
+// function used to fetch follow up form details by caseId and propertyArray
+exports.fetchFollowUpFormDetailsByCaseIdAndPropertyArray = async (caseId, formId, propertyArray) => {
+    return followUpForm.findOne({ caseId: caseId, formId: formId }).select(propertyArray).lean()
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching follow up form `, err)
             throw err;
         })
 }

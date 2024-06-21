@@ -21,7 +21,7 @@ exports.createBasicCaseFormDAO = async (updatePayload, payload) => {
                 return {
                     success: true,
                     data: result,
-                    msg: "Successfully create a basic form"
+                    msg: "Successfully created basic form"
                 }
             }).catch(error => {
                 console.log(error)
@@ -214,6 +214,14 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
                     { primaryDoctorName: { $regex: payload.searchQuery, $options: "i" } },
                     { complaints: { $regex: payload.searchQuery, $options: "i" } },
                     { specialCase: { $regex: payload.searchQuery, $options: "i" } },
+                    // for patientDetails.name
+                    {
+                        'patientDetails.name': {
+                            '$regex': payload.searchQuery,
+                            '$options': 'i'
+                        }
+                    }
+
                 ]
             }
         })
@@ -229,11 +237,12 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
         '$project': {
             'patientId': 1,
             'caseId': 1,
-            'patient': 'patientDetails.name',
+            'patient': '$patientDetails.name',
             'arrivalDate': 1,
             'primaryDoctorCode': 1,
             'primaryDoctorName': 1,
-            'specialCase': 1
+            'specialCase': 1,
+            'createdAt': 1
         }
     })
     return cases.aggregate(pipeline)

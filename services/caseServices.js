@@ -13,10 +13,12 @@ exports.createBasicCaseForm = async (caseDetails) => {
             // fetch the old data using caseId for audit logs 
             oldData = await fetchBasicCaseDetailsByCaseIdByProperty(caseId, Object.keys(caseDetails))
 
+        } else {
+            caseDetails.caseId = Math.random().toString(36).substring(2, 8).toUpperCase()
+
         }
         // create or update the patient details 
         await createOrUpdatePatientDetails(caseDetails?.patientDetails)
-        caseDetails.caseId = Math.random().toString(36).substring(2, 8).toUpperCase()
         let caseDetailsData = await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
         if (caseDetailsData.success) {
             if (caseId != null && oldData.data != null) {
@@ -29,6 +31,10 @@ exports.createBasicCaseForm = async (caseDetails) => {
                 // create audit log
                 await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "basic", updatedBy: caseDetails?.staffId })
             }
+        }
+        if (oldData?.data != null) {
+            // change the message to update
+            caseDetailsData.msg = "Successfully updated basic form"
         }
         return caseDetailsData
     } catch (error) {
@@ -60,7 +66,9 @@ exports.createCardiacCaseForm = async (caseDetails) => {
             oldData = await fetchCardiacCaseDetailsByCaseIdAndPropertyArray(caseId, Object.keys(caseDetails))
         }
         let caseDetailsData = await createCardiaCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+
         if (caseDetailsData.success && oldData.data != null) {
+
             // update isSpecialCase to true
             await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "cardiac" })
             if (caseId != null && oldData?.data != null) {
@@ -72,6 +80,10 @@ exports.createCardiacCaseForm = async (caseDetails) => {
                 // create audit log
                 await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "cardiac", updatedBy: caseDetails?.staffId })
             }
+        }
+        if (oldData?.data != null) {
+            // change the message to update
+            caseDetailsData.msg = "Successfully updated cardiac form"
         }
         return caseDetailsData
     } catch (error) {
@@ -107,6 +119,7 @@ exports.createNeonatalCaseForm = async (caseDetails) => {
         }
 
         let caseDetailsData = await createNeonatalCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+
         if (caseDetailsData.success) {
             // update isSpecialCase to true
             await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "neonatal" })
@@ -121,6 +134,10 @@ exports.createNeonatalCaseForm = async (caseDetails) => {
                 await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "neonatal", updatedBy: caseDetails?.staffId })
 
             }
+        }
+        if (oldData?.data != null) {
+            // change the message to update
+            caseDetailsData.msg = "Successfully neonatal basic form"
         }
         return caseDetailsData
     } catch (error) {
@@ -155,6 +172,10 @@ exports.createObstetricCaseForm = async (caseDetails) => {
             }
 
         }
+        if (oldData?.data != null) {
+            // change the message to update
+            caseDetailsData.msg = "Successfully updated obstetric form"
+        }
         return caseDetailsData
     } catch (error) {
         console.log(error)
@@ -187,6 +208,10 @@ exports.createStrokeCaseForm = async (caseDetails) => {
                 await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "stroke", updatedBy: caseDetails?.staffId })
             }
 
+        }
+        if (oldData?.data != null) {
+            // change the message to update
+            caseDetailsData.msg = "Successfully updated stroke form"
         }
         return caseDetailsData
     } catch (error) {
@@ -224,6 +249,10 @@ exports.createManagementForm = async (caseDetails) => {
 
             }
         }
+        if (oldData?.data != null) {
+            // change the message to update
+            caseDetailsData.msg = "Successfully updated management form"
+        }
         return caseDetailsData
     } catch (error) {
         console.log(error)
@@ -257,6 +286,10 @@ exports.createFollowUpForm = async (caseDetails) => {
                 // create audit log
                 await createAuditLog({ caseId: caseDetails?.caseId, action: "create", case: "followup", updatedBy: caseDetails?.staffId })
             }
+        }
+        if (oldData?.data != null) {
+            // change the message to update
+            caseDetailsData.msg = "Successfully updated follow up form"
         }
         return caseDetailsData
     } catch (error) {
@@ -336,7 +369,7 @@ exports.getSummaryPageDetailsByCaseId = async (caseId) => {
                 basicCaseForm.data.drugALlergies = ""
                 // format structure
                 let caseForms = []
-                caseForms.push({ type: "basic", caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.createdAt })
+                // caseForms.push({ type: "basic", caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.createdAt })
                 if (basicCaseForm.data.specialCase) {
                     if (basicCaseForm.data.specialCase == "cardiac") {
                         caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm?.data?.cardiac_cases[0]?.createdAt })

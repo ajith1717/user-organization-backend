@@ -369,7 +369,7 @@ exports.getSummaryPageDetailsByCaseId = async (caseId) => {
                 basicCaseForm.data.drugALlergies = ""
                 // format structure
                 let caseForms = []
-                // caseForms.push({ type: "basic", caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.createdAt })
+                caseForms.push({ type: "basic", caseId: basicCaseForm.data.caseId, date: basicCaseForm.data.createdAt })
                 if (basicCaseForm.data.specialCase) {
                     if (basicCaseForm.data.specialCase == "cardiac") {
                         caseForms.push({ type: basicCaseForm.data.specialCase, caseId: basicCaseForm.data.caseId, date: basicCaseForm?.data?.cardiac_cases[0]?.createdAt })
@@ -379,9 +379,10 @@ exports.getSummaryPageDetailsByCaseId = async (caseId) => {
                         caseForms?.push({ type: basicCaseForm?.data?.specialCase, caseId: basicCaseForm?.data?.caseId, date: basicCaseForm?.data?.obstetric_cases[0]?.createdAt })
                     } else if (basicCaseForm?.data?.specialCase == "stroke") {
                         caseForms?.push({ type: basicCaseForm?.data?.specialCase, caseId: basicCaseForm?.data?.caseId, date: basicCaseForm?.data?.stroke_cases[0]?.createdAt })
-                    } else {
-                        caseForms?.push({ type: basicCaseForm?.data?.specialCase, caseId: basicCaseForm?.data?.caseId, date: basicCaseForm?.data?.createdAt })
                     }
+                    // else {
+                    //     caseForms?.push({ type: basicCaseForm?.data?.specialCase, caseId: basicCaseForm?.data?.caseId, date: basicCaseForm?.data?.createdAt })
+                    // }
                 }
                 if (basicCaseForm?.data?.management_forms) {
                     basicCaseForm?.data?.management_forms?.forEach(form => {

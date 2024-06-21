@@ -67,7 +67,7 @@ exports.createCardiacCaseForm = async (caseDetails) => {
         }
         let caseDetailsData = await createCardiaCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
 
-        if (caseDetailsData.success && oldData.data != null) {
+        if (caseDetailsData.success) {
 
             // update isSpecialCase to true
             await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, { specialCase: "cardiac" })

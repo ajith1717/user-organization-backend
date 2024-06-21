@@ -410,7 +410,7 @@ exports.getSummaryPageDetailsByCaseId = async (caseId) => {
 
             let diffTime = Math.abs(currentDate - arrivalDate);
             let differenceInHours = diffTime / (1000 * 60 * 60);
-            basicCaseForm.data.isEditAble = differenceInHours > 72
+            basicCaseForm.data.isEditAble = differenceInHours < 72
 
             //  in hrs 72
 

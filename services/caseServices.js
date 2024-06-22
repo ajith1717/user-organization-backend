@@ -9,7 +9,7 @@ exports.createBasicCaseForm = async (caseDetails) => {
     try {
         const caseId = caseDetails?.caseId
         let oldData
-        if (caseId != null) {
+        if (caseId != null && caseId != "") {
             // fetch the old data using caseId for audit logs 
             oldData = await fetchBasicCaseDetailsByCaseIdByProperty(caseId, Object.keys(caseDetails))
 
@@ -21,7 +21,7 @@ exports.createBasicCaseForm = async (caseDetails) => {
         await createOrUpdatePatientDetails(caseDetails?.patientDetails)
         let caseDetailsData = await createBasicCaseFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
         if (caseDetailsData.success) {
-            if (caseId != null && oldData.data != null) {
+            if (caseId != null && oldData?.data != null) {
                 // get audit changes data 
                 let auditData = await fetchAuditChangesData(caseDetails, oldData?.data)
                 // create audit log
@@ -61,7 +61,7 @@ exports.createCardiacCaseForm = async (caseDetails) => {
     try {
         const caseId = caseDetails?.caseId
         let oldData
-        if (caseId != null) {
+        if (caseId != null && caseId != "") {
             // fetch the old data using caseId for audit logs 
             oldData = await fetchCardiacCaseDetailsByCaseIdAndPropertyArray(caseId, Object.keys(caseDetails))
         }
@@ -114,7 +114,7 @@ exports.createNeonatalCaseForm = async (caseDetails) => {
     try {
         const caseId = caseDetails?.caseId
         let oldData
-        if (caseId != null) {
+        if (caseId != null && caseId != "") {
             oldData = await fetchNeonatalCaseDetailsByCaseIdAndPropertyArray(caseId, Object.keys(caseDetails))
         }
 
@@ -152,7 +152,7 @@ exports.createObstetricCaseForm = async (caseDetails) => {
     try {
         const caseId = caseDetails?.caseId
         let oldData
-        if (caseId != null) {
+        if (caseId != null && caseId != "") {
 
             oldData = await fetchObstetricCaseDetailsByCaseIdAndPropertyArray(caseId, Object.keys(caseDetails))
         }
@@ -189,7 +189,7 @@ exports.createStrokeCaseForm = async (caseDetails) => {
     try {
         const caseId = caseDetails?.caseId
         let oldData
-        if (caseId != null) {
+        if (caseId != null && caseId != "") {
             oldData = await fetchStrokeCaseDetailsByCaseIdAndPropertyArray(caseId, Object.keys(caseDetails))
         }
 
@@ -227,7 +227,7 @@ exports.createManagementForm = async (caseDetails) => {
         const caseId = caseDetails?.caseId
         const formId = caseDetails?.formId
         let oldData
-        if (formId != null) {
+        if (formId != null && formId != "" && caseId != null) {
             oldData = await fetchManagementFormDetailsByCaseIdAndPropertyArray(caseId, formId, Object.keys(caseDetails))
         }
 
@@ -267,7 +267,7 @@ exports.createFollowUpForm = async (caseDetails) => {
         const caseId = caseDetails?.caseId
         const formId = caseDetails?.formId
         let oldData
-        if (formId != null) {
+        if (formId != null && formId != "" && caseId != null) {
             oldData = await fetchFollowUpFormDetailsByCaseIdAndPropertyArray(caseId, formId, Object.keys(caseDetails))
         }
 

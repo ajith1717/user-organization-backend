@@ -26,7 +26,7 @@ exports.createBasicCaseForm = async (req, res) => {
 // function used to update basic case form
 exports.updateBasicCaseForm = async (req, res) => {
     try {
-        let result = await updateBasicCaseForm(req.body);
+        let result = await createBasicCaseForm(req.body);
         if (result.success) {
             res.status(HTTP_STATUS_CODE.OK).json(result)
         } else {
@@ -213,6 +213,8 @@ exports.getFormDetails = async (req, res) => {
         console.log('err', err)
         res.status(HTTP_STATUS_CODE.BAD_REQUEST).json(({ success: false, msg: "Error occurred during fetching form details using caseId", errors: err }))
     }
+
+
 }
 
 

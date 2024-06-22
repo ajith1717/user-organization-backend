@@ -182,7 +182,7 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
     // specialCase filter 
     // pagination 
     // search query for primaryDoctorName
-    let skip = 10
+    let skip = 20
     const pipeline = [
 
         {
@@ -203,6 +203,10 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
             $unwind: {
                 path: "$patientDetails"
             }
+        },
+        // sort
+        {
+            $sort: { createdAt: -1 }
         }
     ]
     if (payload.searchQuery != null && payload.searchQuery != "") {

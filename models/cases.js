@@ -16,7 +16,7 @@ const caseSchema = new mongoose.Schema({
     mode: {
         source: { type: String, default: "" }, // ambulatory/self  / police  / paramedic / witness
         badge: { type: String, default: "" }, // police badge number
-        enum: { type: String, default: "" }, // paramedic enum
+        modelEnum: { type: String, default: "" }, // paramedic enum
     },
     weight: {
         value: { type: Number, default: 0 },

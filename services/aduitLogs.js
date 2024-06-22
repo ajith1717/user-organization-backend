@@ -1,4 +1,5 @@
 const { createAuditLogsFormDAO } = require("../dataAccess/auditLogsDAO");
+const { compareObjects, formatChanges } = require("./compare");
 
 
 
@@ -16,27 +17,30 @@ exports.createAuditLog = async (payload) => {
 
 // function used to fetch the changes data for audit logs
 exports.fetchAuditChangesData = (newData, oldData) => {
-    let changes = {};
-    // get keys from new data
-    let updatedKeys = Object.keys(newData);
-    // loop through the keys
-    updatedKeys.forEach(key => {
-        // avoid caseId , patient details and staff details
-        if (key === "caseId" || key === "patientDetails" || key === "staffId" || key == "patientId") {
-            return
-        }
-        // check if the key is present in old data
-        if (oldData[key] !== null) {
-            changes[key] = {
-                old: oldData[key],
-                new: newData[key]
-            }
-        } else {
-            changes[key] = {
-                old: null,
-                new: newData[key]
-            }
-        }
-    })
-    return changes
+    // let changes = {};
+    // // get keys from new data
+    // let updatedKeys = Object.keys(newData);
+    // // loop through the keys
+    // updatedKeys.forEach(key => {
+    //     // avoid caseId , patient details and staff details
+    //     if (key === "caseId" || key === "patientDetails" || key === "staffId" || key == "patientId") {
+    //         return
+    //     }
+    //     // check if the key is present in old data
+    //     if (oldData[key] !== null) {
+    //         changes[key] = {
+    //             old: oldData[key],
+    //             new: newData[key]
+    //         }
+    //     } else {
+    //         changes[key] = {
+    //             old: null,
+    //             new: newData[key]
+    //         }
+    //     }
+    // })
+    let changes = {}
+    return compareObjects(oldData, newData, changes)
+    // return changes
 }
+

@@ -100,16 +100,16 @@ const caseController = require("../controllers/casesController");
  */
 router.post("/v1", caseController.createBasicCaseForm);
 
-// /**
-//  * @swagger
-//  * /v1:
-//  *   put:
-//  *     summary: Update a basic case form
-//  *     responses:
-//  *       200:
-//  *         description: Successfully updated
-//  */
-// router.put("/v1", caseController.updateBasicCaseForm);
+/**
+ * @swagger
+ * /v1:
+ *   put:
+ *     summary: Update a basic case form
+ *     responses:
+ *       200:
+ *         description: Successfully updated
+ */
+router.put("/v1", caseController.updateBasicCaseForm);
 
 
 /**

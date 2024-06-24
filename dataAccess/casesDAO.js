@@ -182,15 +182,8 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
     // specialCase filter 
     // pagination 
     // search query for primaryDoctorName
-    let skip = 20
+    let skip = 40
     const pipeline = [
-
-        {
-            $skip: payload.page * skip
-        },
-        {
-            $limit: skip
-        },
         {
             $lookup: {
                 from: "patients",
@@ -237,7 +230,13 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
             }
         })
     }
-    pipeline.push({
+    pipeline.push(
+        {
+            $skip: payload.page * skip
+        },
+        {
+            $limit: skip
+        }, {
         '$project': {
             'patientId': 1,
             'caseId': 1,

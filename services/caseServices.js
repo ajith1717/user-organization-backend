@@ -272,7 +272,7 @@ exports.createFollowUpForm = async (caseDetails) => {
         }
 
         // create random formId 
-        if (caseDetails?.formId == null && caseDetails?.formId == "") {
+        if (caseDetails?.formId == null || caseDetails?.formId == "") {
             caseDetails.formId = Math.random().toString(36).substring(2, 8).toUpperCase()
         }
         let caseDetailsData = await createFollowUpFormDAO({ caseId: caseDetails?.caseId, formId: caseDetails?.formId }, caseDetails)

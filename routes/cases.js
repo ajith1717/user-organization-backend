@@ -103,11 +103,98 @@ router.post("/v1", caseController.createBasicCaseForm);
 /**
  * @swagger
  * /v1:
- *   put:
- *     summary: Update a basic case form
+ *   post:
+ *     summary: Create a basic case form
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             description: The request payload to create a basic case form.
+ *             example:
+ *               patientId: "ffff"
+ *               staffId: "P23456"
+ *               caseId: "TFLIRM"
+ *               patientDetails: 
+ *                 name: "eee"
+ *                 patientId: "ffff"
+ *                 hospitalId: "H78901"
+ *                 DOB: "1980-05-15"
+ *                 nationalId: "NID123456789"
+ *                 age: 44
+ *                 sex: "Male"
+ *               primaryDoctorName: "www"
+ *               primaryDoctorCode: "DOC6789"
+ *               bedNumber: "B12"
+ *               arrivalDate: "2024-06-11T14:30:00Z"
+ *               preHospitalAssessment: "verbal"
+ *               condition: "alert"
+ *               mode: 
+ *                 source: "ambulatory/self"
+ *                 badge: ""
+ *               weight: 
+ *                 value: 70
+ *                 measured: true
+ *                 estimated: false
+ *               height: 
+ *                 value: 175
+ *                 measured: true
+ *                 estimated: false
+ *               arrivalVitalSigns: 
+ *                 pulse: 72
+ *                 bp: "120/80"
+ *                 o2: "98%"
+ *                 rr: 16
+ *                 spo2: 98
+ *                 temp: 36.7
+ *                 gcs: 15
+ *                 painScore: 2
+ *               complaints: 
+ *                 - "chest pain"
+ *                 - "shortness of breath"
+ *               hopi: "Patient experienced sudden onset of chest pain and shortness of breath while at home."
+ *               pastHistory: "Hypertension, Type 2 Diabetes"
+ *               familyHistory: "Father had coronary artery disease"
+ *               medicationHistory: 
+ *                 - "Metformin"
+ *                 - "Lisinopril"
+ *               gpe: "General physical examination shows mild distress, alert and oriented."
+ *               primarySystem: "Cardiovascular"
+ *               otherSystem: "Respiratory"
+ *               vitalSigns: 
+ *                 pulse: 72
+ *                 bp: "120/80"
+ *                 o2: "98%"
+ *                 rr: 16
+ *                 spo2: 98
+ *                 temp: 36.7
+ *                 gcs: 15
+ *                 painScore: 2
+ *               workingDiagnosis: 
+ *                 "1": ""
+ *                 "2": ""
+ *                 DD: ""
+ *               urgentCare: 
+ *                 - "Oxygen therapy"
+ *                 - "Aspirin administration"
+ *               investigations: 
+ *                 - "ECG"
+ *                 - "Troponin levels"
+ *                 - "Chest X-ray"
+ *               specialistReferrals: 
+ *                 - "Cardiologist"
+ *               treatments: "Oxygen therapy, Aspirin, Nitroglycerin"
+ *               diagnosis: 
+ *                 finalDiagnosis: 
+ *                   - "Myocardial Infarction"
+ *                 diagnosis: "admission"
+ *               prescription: "Aspirin 81mg daily, Nitroglycerin as needed"
+ *               followUp: "Follow up with cardiology in 1 week"
+ *               returnToEr: "If chest pain recurs, or if shortness of breath worsens"
  *     responses:
  *       200:
- *         description: Successfully updated
+ *         description: Successfully updated basic case form
  */
 router.put("/v1", caseController.updateBasicCaseForm);
 

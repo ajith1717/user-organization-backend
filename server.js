@@ -6,11 +6,15 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const swaggerSetup = require('./swagger'); // Adjust the path if necessary
 
+
+const swaggerUi = require('swagger-ui-dist');
 const cors = require('cors');
 //  use route 
 const patientRoute = require("./routes/patients")
 const casesRoute = require("./routes/cases")
 app.use(bodyParser.json({ limit: "20MB" }));
+// Serve Swagger UI static files
+app.use('/swagger-ui-dist', express.static(path.join(__dirname, 'node_modules/swagger-ui-dist')));
 
 // Swagger setup
 swaggerSetup(app);

@@ -182,7 +182,7 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
     // specialCase filter 
     // pagination 
     // search query for primaryDoctorName
-    let skip = 40
+    let skip = 10
     const pipeline = [
         {
             $lookup: {

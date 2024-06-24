@@ -100,18 +100,19 @@ const caseController = require("../controllers/casesController");
  */
 router.post("/v1", caseController.createBasicCaseForm);
 
+
 /**
  * @swagger
  * /v1:
- *   post:
- *     summary: Create a basic case form
+ *   put:
+ *     summary: Update a basic case form
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             description: The request payload to create a basic case form.
+ *             description: The request payload to Update a basic case form.
  *             example:
  *               patientId: "ffff"
  *               staffId: "P23456"

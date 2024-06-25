@@ -183,6 +183,10 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
     // pagination 
     // search query for primaryDoctorName
     let skip = 10
+    let date = payload.date != null ? new Date(payload.date) : new Date()
+    let startDate = new Date(date.setHours(0, 0, 0, 0))
+    let endDate = new Date(date.setHours(23, 59, 59, 999))
+
     const pipeline = [
         {
             $lookup: {
@@ -227,6 +231,16 @@ exports.fetchAllBasicFormWithGivenPayload = async (payload) => {
         pipeline.push({
             $match: {
                 specialCase: payload.type
+            }
+        })
+    }
+    if (payload.date != "" && payload.date != null) {
+        pipeline.push({
+            $match: {
+                arrivalDate: {
+                    $gte: new Date(startDate),
+                    $lt: new Date(endDate)
+                }
             }
         })
     }

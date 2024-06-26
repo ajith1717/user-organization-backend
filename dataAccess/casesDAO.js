@@ -6,6 +6,7 @@ const strokeCases = require("../models/strokeCases")
 const ManagementForm = require("../models/managementForm")
 const followUpForm = require("../models/followUpForm")
 const managementForm = require("../models/managementForm")
+const testForm = require("../models/testForm")
 
 
 
@@ -657,4 +658,25 @@ exports.fetchSummaryCaseDetailsByCaseId = async (caseId) => {
             console.log(`error occurred during fetching cases list`, err)
             throw err;
         })
+}
+
+
+// function used to create or update test form
+exports.createTestFormDAO = async (updatePayload, payload) => {
+    try {
+        return await testForm.findOneAndUpdate(updatePayload, payload, { upsert: true, new: true }).lean()
+            .then(result => {
+                return {
+                    success: true,
+                    data: result,
+                    msg: "Successfully create a test form"
+                }
+            }).catch(error => {
+                console.log(error)
+                throw error
+            })
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
 }

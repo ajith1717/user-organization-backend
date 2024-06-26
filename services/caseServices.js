@@ -1,8 +1,8 @@
-const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload, fetchBasicCaseDetailsByCaseId, fetchCardiacCaseDetailsByCaseId, fetchNeonatalCaseDetailsByCaseId, fetchObstetricCaseDetailsByCaseId, fetchStrokeCaseDetailsByCaseId, fetchManagementFormDetailsByCaseId, fetchFollowUpFormDetailsByCaseId, fetchSummaryCaseDetailsByCaseId, fetchBasicCaseDetailsByCaseIdByProperty, fetchCardiacCaseDetailsByCaseIdAndPropertyArray, fetchNeonatalCaseDetailsByCaseIdAndPropertyArray, fetchObstetricCaseDetailsByCaseIdAndPropertyArray, fetchStrokeCaseDetailsByCaseIdAndPropertyArray, fetchManagementFormDetailsByCaseIdAndPropertyArray, fetchFollowUpFormDetailsByCaseIdAndPropertyArray } = require("../dataAccess/casesDAO");
+const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload, fetchBasicCaseDetailsByCaseId, fetchCardiacCaseDetailsByCaseId, fetchNeonatalCaseDetailsByCaseId, fetchObstetricCaseDetailsByCaseId, fetchStrokeCaseDetailsByCaseId, fetchManagementFormDetailsByCaseId, fetchFollowUpFormDetailsByCaseId, fetchSummaryCaseDetailsByCaseId, fetchBasicCaseDetailsByCaseIdByProperty, fetchCardiacCaseDetailsByCaseIdAndPropertyArray, fetchNeonatalCaseDetailsByCaseIdAndPropertyArray, fetchObstetricCaseDetailsByCaseIdAndPropertyArray, fetchStrokeCaseDetailsByCaseIdAndPropertyArray, fetchManagementFormDetailsByCaseIdAndPropertyArray, fetchFollowUpFormDetailsByCaseIdAndPropertyArray, createTestFormDAO } = require("../dataAccess/casesDAO");
 const { createAuditLog, fetchAuditChangesData } = require("./aduitLogs");
 const { createOrUpdatePatientDetails } = require("./patientServices");
 
-
+// const { sendMessageStaff } = require("../websocket/socket");
 
 // function used to create basic case details 
 exports.createBasicCaseForm = async (caseDetails) => {
@@ -425,6 +425,37 @@ exports.getSummaryPageDetailsByCaseId = async (caseId) => {
                 errors: basicCaseForm.errors
             }
         }
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+
+// function used to create / update test form 
+exports.createTestForm = async (caseDetails) => {
+    try {
+        const caseId = caseDetails?.caseId
+        // create random formId 
+        if (caseDetails?.caseId == null || caseDetails?.caseId == "") {
+            caseDetails.caseId = Math.random().toString(36).substring(2, 8).toUpperCase()
+        }
+        let caseDetailsData = await createTestFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
+        if (caseId != null) {
+            // change the message to update
+            caseDetailsData.msg = "Successfully updated test form"
+            // io.emit(type == "created" ? "formAdded" : "formUpdated", { sender: 'Server', message: message, data: JSON.stringify(data), type: type });
+
+            // sendMessageStaff("updated", "Successfully updated test form", caseDetails)
+        } else {
+            // change the message to update
+            caseDetailsData.msg = "Successfully created test form"
+            // io.emit(type == "created" ? "formAdded" : "formUpdated", { sender: 'Server', message: message, data: JSON.stringify(data), type: type });
+
+            // sendMessageStaff("created", "Successfully created test form", caseDetails)
+
+        }
+        return caseDetailsData
     } catch (error) {
         console.log(error)
         throw error;

@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "server": "LOG_LEVEL=debug nodemon start.js",
+    "server": "LOG_LEVEL=debug nodemon server.js",
     "start": "node server.js",
-    "local": "node start.js",
+    "local": "node server.js",
     "debug": "nodemon --ignore ./logs/custom/ --inspect start.js"
   },
   "keywords": [],

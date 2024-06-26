@@ -1,3 +1,4 @@
+const { io } = require("./socket");
 
 // socketUtils.js
 const sendMessageStaff = (type, message, data) => {

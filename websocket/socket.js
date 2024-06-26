@@ -4,6 +4,7 @@ const { Server } = require("socket.io");
 const httpServer = createServer(app);
 
 const { sendMessageStaff } = require('./socketHandlers'); // Import sendMessageStaff
+const { createTestForm } = require("../services/caseServices");
 
 // remove cors for socket io dashboard
 const io = new Server(httpServer, {
@@ -37,6 +38,22 @@ io.on('connection', (socket) => {
         console.log(`Message from ${socket.id} to room ${room}: ${message}`);
     });
 
+    // POST API to handle form submission
+    app.post('/api/case/v1/test', async (req, res) => {
+        try {
+            let result = await createTestForm(req.body);
+            if (result.success) {
+                // Emit the formAdded event
+                // io.to("case-details").emit('serverMessageToRoom', { sender: socket.id, message });
+
+                io.emit('formAdded', { data: JSON.stringify(result.data) });
+            }
+            res.status(200).json({ message: 'Form submitted successfully' });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    });
 
 });
 
@@ -55,4 +72,4 @@ io.on('connection', (socket) => {
 
 
 // io.on("connection", onConnection);
-module.exports = { server: httpServer, io, sendMessageStaff };
+module.exports = { server: httpServer, io };

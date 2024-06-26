@@ -38,9 +38,10 @@
             socket.emit('clientMessageToRoom', { room, message });
         }
 
-        socket.on('serverMessageToRoom', ({ sender, message }) => {
+        socket.on('formAdded', ({ data }) => {
+            console.log("data", data)
             const li = document.createElement('li');
-            li.textContent = `${sender}: ${message}`;
+            li.textContent = `data: ${data}`;
             document.getElementById('messages').appendChild(li);
         });
     </script>

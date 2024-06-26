@@ -2,7 +2,7 @@ const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormD
 const { createAuditLog, fetchAuditChangesData } = require("./aduitLogs");
 const { createOrUpdatePatientDetails } = require("./patientServices");
 
-// const { sendMessageStaff } = require("../websocket/socket");
+const { sendMessageStaff } = require("../websocket/socketHandlers");
 
 // function used to create basic case details 
 exports.createBasicCaseForm = async (caseDetails) => {

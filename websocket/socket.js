@@ -37,24 +37,33 @@ io.on('connection', (socket) => {
         io.to(room).emit('serverMessageToRoom', { sender: socket.id, message });
         console.log(`Message from ${socket.id} to room ${room}: ${message}`);
     });
+    // disconnect listener
+    socket.on("disconnect", async (data) => {
+        let roomName = "case-details"
+        console.log("====== DISCONNECT SOCKET CONNECTION FROM STAFF DEVICE ====== START ======")
+        io.in(roomName).emit("msg", "all device left online")
+        io.in(roomName).disconnectSockets()
+        socket.leave(roomName)
+        console.log("====== DISCONNECT SOCKET CONNECTION FROM STAFF DEVICE ====== END ======")
+    })
 
-    // POST API to handle form submission
-    app.post('/api/case/v1/test', async (req, res) => {
-        try {
-            let result = await createTestForm(req.body);
-            if (result.success) {
-                // Emit the formAdded event
-                // io.to("case-details").emit('serverMessageToRoom', { sender: socket.id, message });
 
-                io.emit('formAdded', { data: JSON.stringify(result.data) });
-            }
-            res.status(200).json({ message: 'Form submitted successfully' });
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ message: 'Internal server error' });
+});
+// POST API to handle form submission
+app.post('/api/case/v1/test', async (req, res) => {
+    try {
+        let result = await createTestForm(req.body);
+        if (result.success) {
+            // Emit the formAdded event
+            // io.to("case-details").emit('serverMessageToRoom', { sender: socket.id, message });
+
+            io.emit('formAdded', { data: JSON.stringify(result.data) });
         }
-    });
-
+        res.status(200).json({ message: 'Form submitted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 });
 
 // const sendMessageStaff = (type, message, data) => {

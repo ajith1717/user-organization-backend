@@ -90,6 +90,7 @@ io.on('connection', (socket) => {
 // POST API to handle form submission
 app.post('/api/case/v1/test', async (req, res) => {
     try {
+        console.log(req.body)
         let result = await createTestForm(req.body);
         if (result.success) {
             let payload = { caseId: result.data.caseId, name: result.data.name };

@@ -222,7 +222,7 @@ exports.getFormDetails = async (req, res) => {
 exports.getSummaryDetails = async (req, res) => {
     try {
         const caseId = req.params.caseId
-        console.log(caseId)
+        console.log(caseId, "asdasdasdasd")
 
         let result = await getSummaryPageDetailsByCaseId(caseId);
 

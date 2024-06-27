@@ -41,7 +41,8 @@ const { createTestForm } = require("./services/caseServices");
 // remove cors for socket io dashboard
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "*",
+        // origin: "http://localhost:5173",
         // origin: ["https://admin.socket.io", "*", "*:*"],
         methods: ["GET", "POST", "OPTIONS", "DELETE", "PUT"],
         credentials: true
@@ -134,3 +135,7 @@ httpServer.listen(port, async () => {
 
 // exports
 module.exports = app
+
+
+
+// ssh -i /Users/subramaniam/Documents/adk_er.pem ec2-user@65.2.125.86

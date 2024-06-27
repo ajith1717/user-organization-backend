@@ -16,27 +16,16 @@
         <input id="roomName" type="text" placeholder="Enter room name">
         <button onclick="joinRoom()">Join Room</button>
     </div> -->
-    <div>
+    <!-- <div>
         <label for="message">Message:</label>
         <input id="message" type="text" placeholder="Enter message">
         <button onclick="sendMessage()">Send Message</button>
-    </div>
+    </div> -->
     <ul id="messages"></ul>
 
     <script>
         // Connect to server using specific URL
         const socket = io('http://65.2.125.86:5001');
-
-        function joinRoom() {
-            const room = document.getElementById('roomName').value;
-            socket.emit('joinRoom', "case-details");
-        }
-
-        function sendMessage() {
-            const room = "case-details"
-            const message = document.getElementById('message').value;
-            socket.emit('clientMessageToRoom', { room, message });
-        }
 
         socket.on('formAdded', ({ data }) => {
             console.log("data", data)

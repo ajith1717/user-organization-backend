@@ -438,7 +438,8 @@ exports.createTestForm = async (caseDetails) => {
         const caseId = caseDetails?.caseId
         // create random formId 
         if (caseDetails?.caseId == null || caseDetails?.caseId == "") {
-            caseDetails.caseId = Math.random().toString(36).substring(2, 8).toUpperCase()
+            caseDetails.caseId = Math.floor(Math.random() * 900000) + 100000;
+            // Math.random().toString(36).substring(2, 8).toUpperCase()
         }
         let caseDetailsData = await createTestFormDAO({ caseId: caseDetails?.caseId }, caseDetails)
         if (caseId != null) {

@@ -92,7 +92,8 @@ app.post('/api/case/v1/test', async (req, res) => {
     try {
         let result = await createTestForm(req.body);
         if (result.success) {
-            io.emit('formAdded', { data: JSON.stringify(result.data) });
+            let payload = { caseId: result.data.caseId, name: result.data.name };
+            io.emit('formAdded', { data: JSON.stringify(payload) });
         }
         res.status(200).json({ message: 'Form submitted successfully' });
     } catch (err) {

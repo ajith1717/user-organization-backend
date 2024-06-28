@@ -71,10 +71,10 @@ io.on('connection', (socket) => {
 
     // sendMessageToRoom(io, socket)
     // Handle messages from client to room
-    socket.on('clientMessageToRoom', ({ room, message }) => {
-        io.to(room).emit('serverMessageToRoom', { sender: socket.id, message });
-        console.log(`Message from ${socket.id} to room ${room}: ${message}`);
-    });
+    // socket.on('clientMessageToRoom', ({ room, message }) => {
+    //     io.to(room).emit('serverMessageToRoom', { sender: socket.id, message });
+    //     console.log(`Message from ${socket.id} to room ${room}: ${message}`);
+    // });
     // disconnect listener
     socket.on("disconnect", async (data) => {
         let roomName = "case-details"
@@ -109,7 +109,7 @@ app.post('/api/socket', async (req, res) => {
     try {
         console.log(req.body)
         io.emit(req.body?.eventName, JSON.stringify(req.body?.data));
-        res.status(200).json({ message: 'Form submitted successfully' });
+        res.status(200).json({ message: 'message sent successfully' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Internal server error' });

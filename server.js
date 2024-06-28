@@ -103,6 +103,20 @@ app.post('/api/case/v1/test', async (req, res) => {
     }
 });
 
+
+// POST API to handle form submission
+app.post('/api/socket', async (req, res) => {
+    try {
+        console.log(req.body)
+        io.emit(req.body?.eventName, JSON.stringify(req.body?.data));
+        res.status(200).json({ message: 'Form submitted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 // const sendMessageStaff = (type, message, data) => {
 //     console.log("====== RECEIVED SOCKET CONNECTION REQUEST FROM STAFF DEVICE ====== START ======");
 //     io.emit(type === "created" ? "formAdded" : "formUpdated", { sender: 'Server', message, data: JSON.stringify(data), type });

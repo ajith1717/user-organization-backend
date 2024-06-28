@@ -25,6 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 swaggerSetup(app);
 // 👇️ Configure CORS
 app.use(cors());
+app.all('*', (req, res) => {
+    return handle(req, res);
+});
 app.get("/", (req, res) => { res.send("Express on Vercel ..."); });
 // app.use("/api/user", patientRoute);
 app.use("/api/case", casesRoute);

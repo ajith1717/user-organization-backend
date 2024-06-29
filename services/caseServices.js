@@ -1,13 +1,22 @@
-const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload, fetchBasicCaseDetailsByCaseId, fetchCardiacCaseDetailsByCaseId, fetchNeonatalCaseDetailsByCaseId, fetchObstetricCaseDetailsByCaseId, fetchStrokeCaseDetailsByCaseId, fetchManagementFormDetailsByCaseId, fetchFollowUpFormDetailsByCaseId, fetchSummaryCaseDetailsByCaseId, fetchBasicCaseDetailsByCaseIdByProperty, fetchCardiacCaseDetailsByCaseIdAndPropertyArray, fetchNeonatalCaseDetailsByCaseIdAndPropertyArray, fetchObstetricCaseDetailsByCaseIdAndPropertyArray, fetchStrokeCaseDetailsByCaseIdAndPropertyArray, fetchManagementFormDetailsByCaseIdAndPropertyArray, fetchFollowUpFormDetailsByCaseIdAndPropertyArray, createTestFormDAO } = require("../dataAccess/casesDAO");
+const { createBasicCaseFormDAO, createCardiaCaseFormDAO, createNeonatalCaseFormDAO, createObstetricCaseFormDAO, createStrokeCaseFormDAO, createManagementFormDAO, createFollowUpFormDAO, fetchAllBasicFormWithGivenPayload, fetchBasicCaseDetailsByCaseId, fetchCardiacCaseDetailsByCaseId, fetchNeonatalCaseDetailsByCaseId, fetchObstetricCaseDetailsByCaseId, fetchStrokeCaseDetailsByCaseId, fetchManagementFormDetailsByCaseId, fetchFollowUpFormDetailsByCaseId, fetchSummaryCaseDetailsByCaseId, fetchBasicCaseDetailsByCaseIdByProperty, fetchCardiacCaseDetailsByCaseIdAndPropertyArray, fetchNeonatalCaseDetailsByCaseIdAndPropertyArray, fetchObstetricCaseDetailsByCaseIdAndPropertyArray, fetchStrokeCaseDetailsByCaseIdAndPropertyArray, fetchManagementFormDetailsByCaseIdAndPropertyArray, fetchFollowUpFormDetailsByCaseIdAndPropertyArray, createTestFormDAO, fetchCardiacCaseDetailsByPayload, fetchNeonatalCaseDetailsByPayload, fetchObstetricCaseDetailsByPayload, fetchStrokeCaseDetailsByPayload, fetchManagementFormDetailsByPayload, fetchFollowUpFormDetailsByPayload } = require("../dataAccess/casesDAO");
+// const { io } = require("socket.io-client");
+
 const { createAuditLog, fetchAuditChangesData } = require("./aduitLogs");
 const { createOrUpdatePatientDetails } = require("./patientServices");
 
-const { sendMessageStaff } = require("../websocket/socketHandlers");
 
+// const socket = io("http://localhost:5001");
+
+const { compress, decompress } = require('compress-json');
 // function used to create basic case details 
 exports.createBasicCaseForm = async (caseDetails) => {
     try {
         const caseId = caseDetails?.caseId
+        // sendSocketMessage("basic_case_created", JSON.stringify(caseId))
+        io.emit("basicCase", { caseId });
+        // socket.emit("basicCase", { caseId });
+
+        return { success: true, msg: "Successfully created basic form", data: caseId }
         let oldData
         if (caseId != null && caseId != "") {
             // fetch the old data using caseId for audit logs 
@@ -36,6 +45,8 @@ exports.createBasicCaseForm = async (caseDetails) => {
             // change the message to update
             caseDetailsData.msg = "Successfully updated basic form"
         }
+        io.emit("basic_case_created", { caseId });
+
         return caseDetailsData
     } catch (error) {
         console.log(error)
@@ -457,6 +468,43 @@ exports.createTestForm = async (caseDetails) => {
 
         }
         return caseDetailsData
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+}
+
+
+
+
+// function used to fetch all case forms  by days
+exports.fetchAllCaseDetailsByDays = async (date) => {
+    try {
+        let days = 5
+        // fetch basic form details using caseId
+        let caseDetails = fetchAllBasicFormWithGivenPayload(days)
+        let cardiacCases = fetchCardiacCaseDetailsByPayload(days)
+        let neonatalCases = fetchNeonatalCaseDetailsByPayload(days)
+        let obstetricCases = fetchObstetricCaseDetailsByPayload(days)
+        let strokeCases = fetchStrokeCaseDetailsByPayload(days)
+        let managementCases = fetchManagementFormDetailsByPayload(days)
+        let followUpCases = fetchFollowUpFormDetailsByPayload(days)
+
+        let promiseResult = await Promise.all([caseDetails, cardiacCases, neonatalCases, obstetricCases, strokeCases, managementCases, followUpCases])
+        let caseDetailsData = {
+            basic: promiseResult[0].data,
+            cardiac: promiseResult[1].data,
+            neonatal: promiseResult[2].data,
+            obstetric: promiseResult[3].data,
+            stroke: promiseResult[4].data,
+            management: promiseResult[5].data,
+            followup: promiseResult[6].data
+        }
+        let compressed = compress(caseDetailsData)
+        console.log("compressed", compressed)
+        return { success: true, data: compressed }
+        // let decompressed = decompress(compressed)
+
     } catch (error) {
         console.log(error)
         throw error;

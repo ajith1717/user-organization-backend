@@ -7,7 +7,7 @@ const ManagementForm = require("../models/managementForm")
 const followUpForm = require("../models/followUpForm")
 const managementForm = require("../models/managementForm")
 const testForm = require("../models/testForm")
-
+const { previousDay } = require("date-fns");
 
 
 
@@ -679,4 +679,208 @@ exports.createTestFormDAO = async (updatePayload, payload) => {
         console.log(err)
         throw err
     }
+}
+
+
+// function used to fetch basic case Details by days 
+exports.fetchAllBasicFormWithGivenPayload = async (days) => {
+    let date = new Date()
+    let endDate = new Date(date.setHours(0, 0, 0, 0))
+    startDate = previousDay(new Date(endDate), days)
+    let pipeline = [
+        {
+            $match: {
+                updatedAt: {
+                    $gte: new Date(startDate),
+                    $lt: new Date(endDate)
+                }
+            }
+        }
+    ]
+    return cases.aggregate(pipeline)
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching basic cases list`, err)
+            throw err;
+        })
+}
+
+
+// function used to fetch cardiac case Details by days
+exports.fetchCardiacCaseDetailsByPayload = async (days) => {
+    let date = new Date()
+
+    let endDate = new Date(date.setHours(0, 0, 0, 0))
+    startDate = previousDay(new Date(endDate), days)
+    let pipeline = [
+        {
+            $match: {
+                updatedAt: {
+                    $gte: new Date(startDate),
+                    $lt: new Date(endDate)
+                }
+            }
+        }
+    ]
+    return CardiacCases.aggregate(pipeline)
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching cardiac cases list`, err)
+            throw err;
+        })
+}
+
+
+// function used to fetch neonatal case Details by days
+exports.fetchNeonatalCaseDetailsByPayload = async (days) => {
+    let date = new Date()
+
+    let endDate = new Date(date.setHours(0, 0, 0, 0))
+    startDate = previousDay(new Date(endDate), days)
+    let pipeline = [
+        {
+            $match: {
+                updatedAt: {
+                    $gte: new Date(startDate),
+                    $lt: new Date(endDate)
+                }
+            }
+        }
+    ]
+    return NeonatalCases.aggregate(pipeline)
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching neonatal cases list`, err)
+            throw err;
+        })
+}
+
+
+
+// function used to fetch obstetric case Details by days
+exports.fetchObstetricCaseDetailsByPayload = async (days) => {
+    let date = new Date()
+
+    let endDate = new Date(date.setHours(0, 0, 0, 0))
+    startDate = previousDay(new Date(endDate), days)
+    let pipeline = [
+        {
+            $match: {
+                updatedAt: {
+                    $gte: new Date(startDate),
+                    $lt: new Date(endDate)
+                }
+            }
+        }
+    ]
+    return obstetricCases.aggregate(pipeline)
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching obstetric cases list`, err)
+            throw err;
+        })
+}
+
+
+
+// function used to fetch stroke case Details by days
+exports.fetchStrokeCaseDetailsByPayload = async (days) => {
+    let date = new Date()
+
+    let endDate = new Date(date.setHours(0, 0, 0, 0))
+    startDate = previousDay(new Date(endDate), days)
+    let pipeline = [
+        {
+            $match: {
+                updatedAt: {
+                    $gte: new Date(startDate),
+                    $lt: new Date(endDate)
+                }
+            }
+        }
+    ]
+    return strokeCases.aggregate(pipeline)
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching stroke cases list`, err)
+            throw err;
+        })
+}
+
+
+// function used to fetch management form Details by days
+exports.fetchManagementFormDetailsByPayload = async (days) => {
+    let date = new Date()
+
+    let endDate = new Date(date.setHours(0, 0, 0, 0))
+    startDate = previousDay(new Date(endDate), days)
+    let pipeline = [
+        {
+            $match: {
+                updatedAt: {
+                    $gte: new Date(startDate),
+                    $lt: new Date(endDate)
+                }
+            }
+        }
+    ]
+    return managementForm.aggregate(pipeline)
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching management form list`, err)
+            throw err;
+        })
+}
+
+
+// function used to fetch follow up form Details by days
+exports.fetchFollowUpFormDetailsByPayload = async (days) => {
+    let date = new Date()
+
+    let endDate = new Date(date.setHours(0, 0, 0, 0))
+    startDate = previousDay(new Date(endDate), days)
+    let pipeline = [
+        {
+            $match: {
+                updatedAt: {
+                    $gte: new Date(startDate),
+                    $lt: new Date(endDate)
+                }
+            }
+        }
+    ]
+    return followUpForm.aggregate(pipeline)
+        .then(result => {
+            return {
+                success: true,
+                data: result
+            }
+        }).catch(err => {
+            console.log(`error occurred during fetching follow up form list`, err)
+            throw err;
+        })
 }

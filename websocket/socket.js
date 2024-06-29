@@ -78,6 +78,36 @@ io.on('connection', (socket) => {
     });
 });
 
+
+// POST API to handle form submission
+// app.post('/api/case/v1/test', async (req, res) => {
+//     try {
+//         console.log(req.body)
+//         let result = await createTestForm(req.body);
+//         if (result.success) {
+//             let payload = { caseId: result.data.caseId, name: result.data.name };
+//             io.emit('formAdded', JSON.stringify(payload));
+//         }
+//         res.status(200).json({ message: 'Form submitted successfully' });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ message: 'Internal server error' });
+//     }
+// });
+
+
+// POST API to handle form submission
+// app.post('/api/socket', async (req, res) => {
+//     try {
+//         console.log(req.body)
+//         io.emit(req.body?.eventName, JSON.stringify(req.body?.data));
+//         res.status(200).json({ message: 'message sent successfully' });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ message: 'Internal server error' });
+//     }
+// });
+
 exports.sendSocketMessage = (eventName, data) => {
     if (eventName != null) {
         io.emit(eventName, JSON.stringify(data));

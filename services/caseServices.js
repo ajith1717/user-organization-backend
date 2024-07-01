@@ -13,7 +13,7 @@ exports.createBasicCaseForm = async (caseDetails) => {
     try {
         const caseId = caseDetails?.caseId
         // sendSocketMessage("basic_case_created", JSON.stringify(caseId))
-        io.emit("basicCase", { caseId });
+        // io.emit("basicCase", { caseId });
         // socket.emit("basicCase", { caseId });
 
         return { success: true, msg: "Successfully created basic form", data: caseId }
@@ -45,7 +45,7 @@ exports.createBasicCaseForm = async (caseDetails) => {
             // change the message to update
             caseDetailsData.msg = "Successfully updated basic form"
         }
-        io.emit("basic_case_created", { caseId });
+        // io.emit("basic_case_created", { caseId });
 
         return caseDetailsData
     } catch (error) {
@@ -391,9 +391,6 @@ exports.getSummaryPageDetailsByCaseId = async (caseId) => {
                     } else if (basicCaseForm?.data?.specialCase == "stroke") {
                         caseForms?.push({ type: basicCaseForm?.data?.specialCase, caseId: basicCaseForm?.data?.caseId, date: basicCaseForm?.data?.stroke_cases[0]?.createdAt })
                     }
-                    // else {
-                    //     caseForms?.push({ type: basicCaseForm?.data?.specialCase, caseId: basicCaseForm?.data?.caseId, date: basicCaseForm?.data?.createdAt })
-                    // }
                 }
                 if (basicCaseForm?.data?.management_forms) {
                     basicCaseForm?.data?.management_forms?.forEach(form => {
